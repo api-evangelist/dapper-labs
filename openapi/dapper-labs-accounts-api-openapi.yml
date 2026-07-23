@@ -1,0 +1,404 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Access Accounts API
+servers:
+- url: https://rest-testnet.onflow.org/v1
+  description: Flow Testnet
+- url: https://rest-mainnet.onflow.org/v1
+  description: Flow Mainnet
+tags:
+- name: Accounts
+paths:
+  /accounts/{address}:
+    get:
+      summary: Get an Account By Address
+      description: Get an account data by provided address in latest "sealed" block or by provided block height.
+      tags:
+      - Accounts
+      parameters:
+      - name: address
+        in: path
+        schema:
+          $ref: '#/components/schemas/Address'
+        required: true
+        description: The address of the account.
+      - name: block_height
+        in: query
+        schema:
+          $ref: '#/components/schemas/BlockHeight'
+        required: false
+        description: The block height to query for the account details at the "sealed" is used by default.
+      - $ref: '#/components/parameters/expandParam'
+      - $ref: '#/components/parameters/selectParam'
+      - $ref: '#/components/parameters/agreeingExecutorsCount'
+      - $ref: '#/components/parameters/requiredExecutorIds'
+      - $ref: '#/components/parameters/includeExecutorMetadata'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+        '500':
+          $ref: '#/components/responses/500InternalServerError'
+  /accounts/{address}/keys/{index}:
+    get:
+      summary: Get an individual Account Key By Address and Index
+      description: Get an account data by provided address in latest "sealed" block or by provided block height.
+      tags:
+      - Accounts
+      parameters:
+      - name: address
+        in: path
+        schema:
+          $ref: '#/components/schemas/Address'
+        required: true
+        description: The address of the account.
+      - name: index
+        in: path
+        schema:
+          type: string
+          format: uint64
+          description: Index of the public key.
+        required: true
+        description: The index of the account key.
+      - name: block_height
+        in: query
+        schema:
+          $ref: '#/components/schemas/BlockHeight'
+        required: false
+        description: The block height to query for the account details at the "sealed" is used by default.
+      - $ref: '#/components/parameters/expandParam'
+      - $ref: '#/components/parameters/selectParam'
+      - $ref: '#/components/parameters/agreeingExecutorsCount'
+      - $ref: '#/components/parameters/requiredExecutorIds'
+      - $ref: '#/components/parameters/includeExecutorMetadata'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountPublicKey'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+        '500':
+          $ref: '#/components/responses/500InternalServerError'
+  /accounts/{address}/keys:
+    get:
+      summary: Get Account Keys By Address
+      description: Get an account data by provided address in latest "sealed" block or by provided block height.
+      tags:
+      - Accounts
+      parameters:
+      - name: address
+        in: path
+        schema:
+          $ref: '#/components/schemas/Address'
+        required: true
+        description: The address of the account.
+      - name: block_height
+        in: query
+        schema:
+          $ref: '#/components/schemas/BlockHeight'
+        required: false
+        description: The block height to query for the account details. "sealed" is used by default.
+      - $ref: '#/components/parameters/expandParam'
+      - $ref: '#/components/parameters/selectParam'
+      - $ref: '#/components/parameters/agreeingExecutorsCount'
+      - $ref: '#/components/parameters/requiredExecutorIds'
+      - $ref: '#/components/parameters/includeExecutorMetadata'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountPublicKeys'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+        '500':
+          $ref: '#/components/responses/500InternalServerError'
+  /accounts/{address}/balance:
+    get:
+      summary: Get account balance by Address and BlockHeight.
+      description: Get an account's balance by the provided address and block height.
+      tags:
+      - Accounts
+      parameters:
+      - name: address
+        in: path
+        schema:
+          $ref: '#/components/schemas/Address'
+        required: true
+        description: The address of the account.
+      - name: block_height
+        in: query
+        schema:
+          $ref: '#/components/schemas/BlockHeight'
+        required: false
+        description: The block height at which to query for the account details. "sealed" is used by default.
+      - $ref: '#/components/parameters/expandParam'
+      - $ref: '#/components/parameters/selectParam'
+      - $ref: '#/components/parameters/agreeingExecutorsCount'
+      - $ref: '#/components/parameters/requiredExecutorIds'
+      - $ref: '#/components/parameters/includeExecutorMetadata'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountBalance'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+        '500':
+          $ref: '#/components/responses/500InternalServerError'
+components:
+  schemas:
+    BlockHeight:
+      oneOf:
+      - type: string
+        format: uint64
+      - type: string
+        enum:
+        - final
+        - sealed
+    HashingAlgorithm:
+      type: string
+      enum:
+      - SHA2_256
+      - SHA2_384
+      - SHA3_256
+      - SHA3_384
+      - KMAC128
+    Links:
+      type: object
+      properties:
+        _self:
+          type: string
+    Metadata:
+      description: Contains data about the node's state at the time of the request.
+      type: object
+      properties:
+        executor_metadata:
+          $ref: '#/components/schemas/ExecutorMetadata'
+    AccountPublicKey:
+      type: object
+      required:
+      - index
+      - public_key
+      - signing_algorithm
+      - hashing_algorithm
+      - sequence_number
+      - weight
+      - revoked
+      properties:
+        index:
+          type: string
+          format: uint64
+          description: Index of the public key.
+        public_key:
+          type: string
+          format: hex
+          description: Hex encoded public key.
+        signing_algorithm:
+          $ref: '#/components/schemas/SigningAlgorithm'
+        hashing_algorithm:
+          $ref: '#/components/schemas/HashingAlgorithm'
+        sequence_number:
+          type: string
+          format: uint64
+          description: Current account sequence number.
+        weight:
+          type: string
+          format: uint64
+          description: Weight of the key.
+        revoked:
+          type: boolean
+          description: Flag indicating whether the key is active or not.
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+    AccountBalance:
+      type: object
+      required:
+      - balance
+      properties:
+        balance:
+          type: string
+          format: uint64
+          description: Flow balance of the account.
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+    SigningAlgorithm:
+      type: string
+      enum:
+      - BLSBLS12381
+      - ECDSAP256
+      - ECDSASecp256k1
+    ExecutorMetadata:
+      type: object
+      description: Contains data about the execution result used to serve the request.
+      properties:
+        execution_result_id:
+          $ref: '#/components/schemas/Identifier'
+        executor_ids:
+          type: array
+          items:
+            $ref: '#/components/schemas/Identifier'
+    Address:
+      description: The 8-byte address of an account.
+      type: string
+      format: hexadecimal
+      pattern: '[a-fA-F0-9]{16}'
+    Identifier:
+      description: A 32-byte unique identifier for an entity.
+      type: string
+      format: hexadecimal
+      pattern: '[a-fA-F0-9]{64}'
+    Account:
+      type: object
+      required:
+      - address
+      - balance
+      - _expandable
+      properties:
+        address:
+          $ref: '#/components/schemas/Address'
+        balance:
+          type: string
+          format: uint64
+          description: Flow balance of the account.
+        keys:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountPublicKey'
+          minItems: 1
+          uniqueItems: true
+        contracts:
+          type: object
+          additionalProperties:
+            type: string
+            format: byte
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        _expandable:
+          type: object
+          properties:
+            keys:
+              type: string
+            contracts:
+              type: string
+        _links:
+          $ref: '#/components/schemas/Links'
+    AccountPublicKeys:
+      type: object
+      required:
+      - keys
+      properties:
+        keys:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountPublicKey'
+          minItems: 1
+          uniqueItems: true
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+  responses:
+    500InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    400BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    404NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    selectParam:
+      description: A comma-separated list indicating which properties of the content to return.
+      name: select
+      in: query
+      schema:
+        type: array
+        items:
+          type: string
+        minItems: 1
+        uniqueItems: true
+      explode: false
+      style: form
+      required: false
+    requiredExecutorIds:
+      description: A set of execution node IDs, one of which must have produced the execution result.
+      name: required_executor_ids
+      in: query
+      schema:
+        type: array
+        items:
+          $ref: '#/components/schemas/Identifier'
+        minItems: 1
+        uniqueItems: true
+      explode: false
+      style: form
+      required: false
+    includeExecutorMetadata:
+      description: Specifies whether or not to include the executor metadata in the response.
+      name: include_executor_metadata
+      in: query
+      allowEmptyValue: false
+      schema:
+        type: boolean
+      required: false
+    agreeingExecutorsCount:
+      description: A minimum number of execution receipts for the execution result.
+      name: agreeing_executors_count
+      in: query
+      allowEmptyValue: false
+      schema:
+        type: string
+        format: uint64
+      required: false
+    expandParam:
+      description: A comma-separated list indicating which properties of the content to expand.
+      name: expand
+      in: query
+      schema:
+        type: array
+        items:
+          type: string
+        minItems: 1
+        uniqueItems: true
+      explode: false
+      style: form
+      required: false
+externalDocs:
+  description: Find out more about the Access API
+  url: https://docs.onflow.org/access-api/

@@ -1,0 +1,69 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Access Accounts Network API
+servers:
+- url: https://rest-testnet.onflow.org/v1
+  description: Flow Testnet
+- url: https://rest-mainnet.onflow.org/v1
+  description: Flow Mainnet
+tags:
+- name: Network
+paths:
+  /network/parameters:
+    get:
+      summary: Get Network Parameters
+      description: Get network-wide parameters of the blockchain
+      tags:
+      - Network
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkParameters'
+          description: OK
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+        '500':
+          $ref: '#/components/responses/500InternalServerError'
+components:
+  schemas:
+    NetworkParameters:
+      type: object
+      required:
+      - chain_id
+      properties:
+        chain_id:
+          type: string
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+  responses:
+    500InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    400BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    404NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+externalDocs:
+  description: Find out more about the Access API
+  url: https://docs.onflow.org/access-api/

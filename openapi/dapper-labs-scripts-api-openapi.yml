@@ -1,0 +1,102 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Access Accounts Scripts API
+servers:
+- url: https://rest-testnet.onflow.org/v1
+  description: Flow Testnet
+- url: https://rest-mainnet.onflow.org/v1
+  description: Flow Mainnet
+tags:
+- name: Scripts
+paths:
+  /scripts:
+    post:
+      summary: Execute a Cadence Script
+      description: Executes a read-only Cadence script against the execution state at the given block height or ID. If block height or ID is not specified, then the script is executed at the latest sealed block height.
+      tags:
+      - Scripts
+      parameters:
+      - description: The ID of the block to execute the script against. For a specific block height, use `block_height` instead.
+        name: block_id
+        in: query
+        schema:
+          $ref: '#/components/schemas/Identifier'
+        required: false
+      - description: The height of the block to execute the script against. This parameter is incompatible with `block_id`.
+        name: block_height
+        in: query
+        schema:
+          $ref: '#/components/schemas/BlockHeight'
+        required: false
+      requestBody:
+        description: The script to execute.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                script:
+                  type: string
+                  format: base64
+                  description: Base64 encoded content of the Cadence script.
+                arguments:
+                  type: array
+                  description: An list of arguments each encoded as Base64 passed in the [JSON-Cadence interchange format](https://docs.onflow.org/cadence/json-cadence-spec/).
+                  items:
+                    type: string
+                    format: byte
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  value:
+                    type: string
+                    format: byte
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '500':
+          $ref: '#/components/responses/500InternalServerError'
+components:
+  schemas:
+    BlockHeight:
+      oneOf:
+      - type: string
+        format: uint64
+      - type: string
+        enum:
+        - final
+        - sealed
+    Identifier:
+      description: A 32-byte unique identifier for an entity.
+      type: string
+      format: hexadecimal
+      pattern: '[a-fA-F0-9]{64}'
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+  responses:
+    500InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    400BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+externalDocs:
+  description: Find out more about the Access API
+  url: https://docs.onflow.org/access-api/

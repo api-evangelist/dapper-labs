@@ -1,0 +1,199 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Access Accounts Subscribe events API
+servers:
+- url: https://rest-testnet.onflow.org/v1
+  description: Flow Testnet
+- url: https://rest-mainnet.onflow.org/v1
+  description: Flow Mainnet
+tags:
+- name: Subscribe events
+paths:
+  /subscribe_events:
+    get:
+      summary: Subscribe events
+      description: 'IMPORTANT NOTE: This is a WebSocket connection, so the `ws://` or `wss://` schema should be used to subscribe to this endpoint.
+
+
+        This endpoint streams on-chain events for all blocks starting at the requested start block, up until the latest available block. Once the latest block is reached, the stream will remain open, and responses will be sent for each new block as it becomes available.
+
+        '
+      tags:
+      - Subscribe events
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscribeEvents'
+          description: OK
+        '400':
+          $ref: '#/components/responses/400BadRequestWS'
+        '408':
+          $ref: '#/components/responses/408ServerTimeoutWS'
+        '500':
+          $ref: '#/components/responses/500InternalServerErrorWS'
+        '503':
+          $ref: '#/components/responses/503ServiceUnavailableWS'
+      parameters:
+      - name: start_height
+        in: query
+        description: The block height of the events being streamed. Either provide this parameter or `start_block_id` parameter. This parameter is incompatible with `start_block_id` parameter.
+        required: false
+        schema:
+          $ref: '#/components/schemas/BlockHeight'
+        allowEmptyValue: false
+      - name: start_block_id
+        description: The block id of the events being streamed. Either provide this parameter or `start_height` parameter. This parameter is incompatible with `start_height` parameter.
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/Identifier'
+      - name: heartbeat_interval
+        description: Interval in block heights at which the server should return a heartbeat message to the client.
+        in: query
+        required: false
+        allowEmptyValue: false
+        schema:
+          type: string
+          format: uint64
+      - name: event_types
+        in: query
+        description: A comma-separated list of events type to include.
+        required: false
+        allowEmptyValue: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventType'
+          minItems: 1
+          uniqueItems: true
+      - name: addresses
+        in: query
+        description: A comma-separated list of addresses who's events should be included.
+        required: false
+        allowEmptyValue: false
+        schema:
+          type: array
+          items:
+            type: string
+          minItems: 1
+          uniqueItems: true
+      - name: contracts
+        in: query
+        description: A comma-separated list of contracts who's events should be included.
+        required: false
+        allowEmptyValue: false
+        schema:
+          type: array
+          items:
+            type: string
+          minItems: 1
+          uniqueItems: true
+components:
+  schemas:
+    BlockHeight:
+      oneOf:
+      - type: string
+        format: uint64
+      - type: string
+        enum:
+        - final
+        - sealed
+    EventType:
+      description: The qualified event type.
+      type: string
+    Identifier:
+      description: A 32-byte unique identifier for an entity.
+      type: string
+      format: hexadecimal
+      pattern: '[a-fA-F0-9]{64}'
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+    Event:
+      type: object
+      required:
+      - type
+      - transaction_id
+      - transaction_index
+      - event_index
+      - payload
+      properties:
+        type:
+          $ref: '#/components/schemas/EventType'
+        transaction_id:
+          $ref: '#/components/schemas/Identifier'
+        transaction_index:
+          type: string
+          format: uint64
+        event_index:
+          type: string
+          format: uint64
+        payload:
+          type: string
+          format: byte
+    SubscribeEvents:
+      type: object
+      properties:
+        BlockId:
+          $ref: '#/components/schemas/Identifier'
+        Height:
+          type: string
+        Events:
+          type: array
+          items:
+            $ref: '#/components/schemas/Event'
+  responses:
+    400BadRequestWS:
+      description: 'Bad Request
+
+
+        As OpenAPI does not support WebSocket description, the error code (1003) is actually returned in a close message instead of (400).
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    408ServerTimeoutWS:
+      description: 'Server Timeout
+
+
+        As OpenAPI does not support WebSocket description, this error code (1001) is actually returned in a close message instead of (408).
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    503ServiceUnavailableWS:
+      description: 'Service Unavailable
+
+
+        As OpenAPI does not support WebSocket description, this error code (1013) is actually returned in a close message instead of (503).
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    500InternalServerErrorWS:
+      description: 'Internal Server Error
+
+
+        As OpenAPI does not support WebSocket description, this error code (1011) is actually returned in a close message instead of (500).
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+externalDocs:
+  description: Find out more about the Access API
+  url: https://docs.onflow.org/access-api/

@@ -1,0 +1,273 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Access Accounts Execution Receipts API
+servers:
+- url: https://rest-testnet.onflow.org/v1
+  description: Flow Testnet
+- url: https://rest-mainnet.onflow.org/v1
+  description: Flow Mainnet
+tags:
+- name: Execution Receipts
+paths:
+  /execution_receipts:
+    get:
+      summary: Get Execution Receipts by Block ID
+      description: Get all execution receipts for the provided block ID.
+      tags:
+      - Execution Receipts
+      parameters:
+      - name: block_id
+        in: query
+        schema:
+          $ref: '#/components/schemas/Identifier'
+        required: true
+        description: The ID of the block.
+      - $ref: '#/components/parameters/expandParam'
+      - $ref: '#/components/parameters/selectParam'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ExecutionReceipt'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+        '500':
+          $ref: '#/components/responses/500InternalServerError'
+  /execution_receipts/results/{id}:
+    get:
+      summary: Get Execution Receipts by Result ID
+      description: Get all execution receipts for the provided execution result ID.
+      tags:
+      - Execution Receipts
+      parameters:
+      - name: id
+        in: path
+        schema:
+          $ref: '#/components/schemas/Identifier'
+        required: true
+        description: The ID of the execution result.
+      - $ref: '#/components/parameters/expandParam'
+      - $ref: '#/components/parameters/selectParam'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ExecutionReceipt'
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+        '500':
+          $ref: '#/components/responses/500InternalServerError'
+components:
+  parameters:
+    expandParam:
+      description: A comma-separated list indicating which properties of the content to expand.
+      name: expand
+      in: query
+      schema:
+        type: array
+        items:
+          type: string
+        minItems: 1
+        uniqueItems: true
+      explode: false
+      style: form
+      required: false
+    selectParam:
+      description: A comma-separated list indicating which properties of the content to return.
+      name: select
+      in: query
+      schema:
+        type: array
+        items:
+          type: string
+        minItems: 1
+        uniqueItems: true
+      explode: false
+      style: form
+      required: false
+  schemas:
+    Metadata:
+      description: Contains data about the node's state at the time of the request.
+      type: object
+      properties:
+        executor_metadata:
+          $ref: '#/components/schemas/ExecutorMetadata'
+    Links:
+      type: object
+      properties:
+        _self:
+          type: string
+    ExecutorMetadata:
+      type: object
+      description: Contains data about the execution result used to serve the request.
+      properties:
+        execution_result_id:
+          $ref: '#/components/schemas/Identifier'
+        executor_ids:
+          type: array
+          items:
+            $ref: '#/components/schemas/Identifier'
+    Identifier:
+      description: A 32-byte unique identifier for an entity.
+      type: string
+      format: hexadecimal
+      pattern: '[a-fA-F0-9]{64}'
+    ExecutionReceipt:
+      type: object
+      required:
+      - executor_id
+      - result_id
+      - executor_signature
+      - _expandable
+      properties:
+        executor_id:
+          description: Node ID of the execution node who produced the receipt.
+          $ref: '#/components/schemas/Identifier'
+        result_id:
+          $ref: '#/components/schemas/Identifier'
+        spocks:
+          type: array
+          items:
+            type: string
+            format: byte
+        executor_signature:
+          type: string
+          format: byte
+        execution_result:
+          $ref: '#/components/schemas/ExecutionResult'
+        _expandable:
+          type: object
+          properties:
+            execution_result:
+              type: string
+              format: uri
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+    Event:
+      type: object
+      required:
+      - type
+      - transaction_id
+      - transaction_index
+      - event_index
+      - payload
+      properties:
+        type:
+          $ref: '#/components/schemas/EventType'
+        transaction_id:
+          $ref: '#/components/schemas/Identifier'
+        transaction_index:
+          type: string
+          format: uint64
+        event_index:
+          type: string
+          format: uint64
+        payload:
+          type: string
+          format: byte
+    EventType:
+      description: The qualified event type.
+      type: string
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+    Chunk:
+      type: object
+      required:
+      - block_id
+      - collection_index
+      - start_state
+      - end_state
+      - event_collection
+      - index
+      - number_of_transactions
+      - total_computation_used
+      properties:
+        block_id:
+          $ref: '#/components/schemas/Identifier'
+        collection_index:
+          type: string
+          format: uint64
+        start_state:
+          type: string
+          format: byte
+        end_state:
+          type: string
+          format: byte
+        event_collection:
+          type: string
+          format: byte
+        index:
+          type: string
+          format: uint64
+        number_of_transactions:
+          type: string
+          format: uint64
+        total_computation_used:
+          type: string
+          format: uint64
+    ExecutionResult:
+      type: object
+      required:
+      - id
+      - block_id
+      - events
+      - previous_result_id
+      properties:
+        id:
+          $ref: '#/components/schemas/Identifier'
+        block_id:
+          $ref: '#/components/schemas/Identifier'
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/Event'
+        chunks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Chunk'
+        previous_result_id:
+          $ref: '#/components/schemas/Identifier'
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        _links:
+          $ref: '#/components/schemas/Links'
+  responses:
+    500InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    400BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    404NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+externalDocs:
+  description: Find out more about the Access API
+  url: https://docs.onflow.org/access-api/

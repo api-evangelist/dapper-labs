@@ -1,0 +1,224 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Access Accounts Events API
+servers:
+- url: https://rest-testnet.onflow.org/v1
+  description: Flow Testnet
+- url: https://rest-mainnet.onflow.org/v1
+  description: Flow Mainnet
+tags:
+- name: Events
+paths:
+  /events:
+    get:
+      summary: Get Events
+      description: Query on-chain events by their name in the specified blocks heights or block IDs.
+      tags:
+      - Events
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlockEvents'
+          description: OK
+        '400':
+          $ref: '#/components/responses/400BadRequest'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+        '500':
+          $ref: '#/components/responses/500InternalServerError'
+      parameters:
+      - name: type
+        in: query
+        description: The event type is [identifier of the event as defined here](https://docs.onflow.org/core-contracts/flow-token/#events).
+        required: true
+        deprecated: false
+        schema:
+          $ref: '#/components/schemas/EventType'
+        allowEmptyValue: false
+      - name: start_height
+        in: query
+        required: false
+        description: The start height of the block range for events. Must be used together with `end_height`. This parameter is incompatible with `block_ids`.
+        schema:
+          $ref: '#/components/schemas/BlockHeight'
+        allowEmptyValue: false
+      - name: end_height
+        in: query
+        required: false
+        description: The end height of the block range for events. Must be used together with `start_height`. This parameter is incompatible with `block_ids`.
+        schema:
+          $ref: '#/components/schemas/BlockHeight'
+        allowEmptyValue: false
+      - name: block_ids
+        description: List of block IDs. Either provide this parameter or both height parameters. This parameter is incompatible with heights parameters.
+        in: query
+        style: form
+        required: false
+        explode: false
+        allowEmptyValue: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/Identifier'
+          minItems: 1
+          maxItems: 50
+          uniqueItems: true
+      - $ref: '#/components/parameters/selectParam'
+      - $ref: '#/components/parameters/agreeingExecutorsCount'
+      - $ref: '#/components/parameters/requiredExecutorIds'
+      - $ref: '#/components/parameters/includeExecutorMetadata'
+components:
+  parameters:
+    agreeingExecutorsCount:
+      description: A minimum number of execution receipts for the execution result.
+      name: agreeing_executors_count
+      in: query
+      allowEmptyValue: false
+      schema:
+        type: string
+        format: uint64
+      required: false
+    selectParam:
+      description: A comma-separated list indicating which properties of the content to return.
+      name: select
+      in: query
+      schema:
+        type: array
+        items:
+          type: string
+        minItems: 1
+        uniqueItems: true
+      explode: false
+      style: form
+      required: false
+    requiredExecutorIds:
+      description: A set of execution node IDs, one of which must have produced the execution result.
+      name: required_executor_ids
+      in: query
+      schema:
+        type: array
+        items:
+          $ref: '#/components/schemas/Identifier'
+        minItems: 1
+        uniqueItems: true
+      explode: false
+      style: form
+      required: false
+    includeExecutorMetadata:
+      description: Specifies whether or not to include the executor metadata in the response.
+      name: include_executor_metadata
+      in: query
+      allowEmptyValue: false
+      schema:
+        type: boolean
+      required: false
+  schemas:
+    BlockHeight:
+      oneOf:
+      - type: string
+        format: uint64
+      - type: string
+        enum:
+        - final
+        - sealed
+    Metadata:
+      description: Contains data about the node's state at the time of the request.
+      type: object
+      properties:
+        executor_metadata:
+          $ref: '#/components/schemas/ExecutorMetadata'
+    Links:
+      type: object
+      properties:
+        _self:
+          type: string
+    ExecutorMetadata:
+      type: object
+      description: Contains data about the execution result used to serve the request.
+      properties:
+        execution_result_id:
+          $ref: '#/components/schemas/Identifier'
+        executor_ids:
+          type: array
+          items:
+            $ref: '#/components/schemas/Identifier'
+    Identifier:
+      description: A 32-byte unique identifier for an entity.
+      type: string
+      format: hexadecimal
+      pattern: '[a-fA-F0-9]{64}'
+    EventType:
+      description: The qualified event type.
+      type: string
+    BlockEvents:
+      type: object
+      properties:
+        block_id:
+          $ref: '#/components/schemas/Identifier'
+        block_height:
+          type: string
+        block_timestamp:
+          type: string
+          format: date-time
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/Event'
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        _links:
+          $ref: '#/components/schemas/Links'
+    Event:
+      type: object
+      required:
+      - type
+      - transaction_id
+      - transaction_index
+      - event_index
+      - payload
+      properties:
+        type:
+          $ref: '#/components/schemas/EventType'
+        transaction_id:
+          $ref: '#/components/schemas/Identifier'
+        transaction_index:
+          type: string
+          format: uint64
+        event_index:
+          type: string
+          format: uint64
+        payload:
+          type: string
+          format: byte
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+  responses:
+    400BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    500InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    404NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+externalDocs:
+  description: Find out more about the Access API
+  url: https://docs.onflow.org/access-api/
