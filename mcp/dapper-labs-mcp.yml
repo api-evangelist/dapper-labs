@@ -1,0 +1,49 @@
+generated: '2026-07-18'
+method: derived
+status: candidate
+source: openapi/dapper-labs-flow-access-openapi-original.yml
+note: >-
+  No official hosted Dapper Labs / Flow MCP server was found. This is a CANDIDATE
+  tool list derived from the Flow Access API REST operations (one tool per endpoint).
+  Read-only blockchain queries + script execution + transaction submission.
+server:
+  name: dapper-labs-flow-access
+  transport: http
+  url: null
+tools:
+  - name: get_blocks
+    description: Get blocks by height (or latest/sealed).
+    source_operation: openapi/dapper-labs-flow-access-openapi-original.yml#GET /blocks
+  - name: get_block_by_id
+    description: Get a block by ID.
+    source_operation: openapi/dapper-labs-flow-access-openapi-original.yml#GET /blocks/{id}
+  - name: get_transaction
+    description: Get a transaction by ID.
+    source_operation: openapi/dapper-labs-flow-access-openapi-original.yml#GET /transactions/{id}
+  - name: submit_transaction
+    description: Submit a signed Cadence transaction.
+    source_operation: openapi/dapper-labs-flow-access-openapi-original.yml#POST /transactions
+  - name: get_transaction_result
+    description: Get a transaction result by transaction ID.
+    source_operation: openapi/dapper-labs-flow-access-openapi-original.yml#GET /transaction_results/{transaction_id}
+  - name: get_collection
+    description: Get a collection by ID.
+    source_operation: openapi/dapper-labs-flow-access-openapi-original.yml#GET /collections/{id}
+  - name: get_account
+    description: Get an account by address (balance, keys, contracts).
+    source_operation: openapi/dapper-labs-flow-access-openapi-original.yml#GET /accounts/{address}
+  - name: get_account_balance
+    description: Get an account balance by address and block height.
+    source_operation: openapi/dapper-labs-flow-access-openapi-original.yml#GET /accounts/{address}/balance
+  - name: execute_script
+    description: Execute a read-only Cadence script.
+    source_operation: openapi/dapper-labs-flow-access-openapi-original.yml#POST /scripts
+  - name: get_events
+    description: Get on-chain events by type and block range.
+    source_operation: openapi/dapper-labs-flow-access-openapi-original.yml#GET /events
+  - name: get_network_parameters
+    description: Get network parameters (chain ID).
+    source_operation: openapi/dapper-labs-flow-access-openapi-original.yml#GET /network/parameters
+  - name: get_node_version_info
+    description: Get access node version information.
+    source_operation: openapi/dapper-labs-flow-access-openapi-original.yml#GET /node_version_info

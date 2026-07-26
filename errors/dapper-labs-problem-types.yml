@@ -1,0 +1,28 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/dapper-labs-flow-access-openapi-original.yml
+format: custom
+envelope:
+  media_type: application/json
+  schema: { code: integer, message: string }
+  note: >-
+    The Flow Access API returns a simple error envelope ({code, message}) — it does
+    NOT use RFC 9457 application/problem+json. Errors are derived from the reusable
+    responses (400BadRequest, 404NotFound, 408 timeout, 500InternalServerError, 503)
+    referenced across operations.
+problems:
+  - status: 400
+    title: Bad Request
+    meaning: The request was malformed (invalid address, height, script, or transaction payload).
+  - status: 404
+    title: Not Found
+    meaning: The requested resource (block, transaction, account, collection, event) does not exist.
+  - status: 408
+    title: Request Timeout
+    meaning: The request timed out (e.g. a long-running script execution or block query).
+  - status: 500
+    title: Internal Server Error
+    meaning: The access node encountered an unexpected error servicing the request.
+  - status: 503
+    title: Service Unavailable
+    meaning: The access node or upstream execution/collection node is temporarily unavailable.

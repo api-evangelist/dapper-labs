@@ -1,0 +1,19 @@
+generated: '2026-07-18'
+method: generated
+source: openapi/dapper-labs-flow-access-openapi-original.yml
+note: >-
+  The upstream OpenAPI defines no operationIds, so each skill grounds its steps in
+  real, stable HTTP method + path operations verified in the spec.
+skills:
+  - file: dapper-labs-query-account.md
+    name: Query a Flow account and its balance
+    api: openapi/dapper-labs-flow-access-openapi-original.yml
+    operations: ["GET /accounts/{address}", "GET /accounts/{address}/balance", "GET /accounts/{address}/keys"]
+  - file: dapper-labs-execute-script.md
+    name: Execute a read-only Cadence script
+    api: openapi/dapper-labs-flow-access-openapi-original.yml
+    operations: ["POST /scripts", "GET /blocks"]
+  - file: dapper-labs-submit-transaction.md
+    name: Submit a Cadence transaction and check its result
+    api: openapi/dapper-labs-flow-access-openapi-original.yml
+    operations: ["POST /transactions", "GET /transactions/{id}", "GET /transaction_results/{transaction_id}"]

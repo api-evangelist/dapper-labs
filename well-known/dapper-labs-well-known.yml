@@ -1,0 +1,32 @@
+generated: '2026-07-18'
+method: searched
+source: live probes of Flow Access API REST hosts
+note: >-
+  The Flow Access API REST hosts are public blockchain node endpoints and expose
+  no /.well-known/ discovery documents. All probes returned 404 — a valid, expected
+  result for an unauthenticated node API.
+hosts:
+  - host: https://rest-mainnet.onflow.org
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+  - host: https://rest-testnet.onflow.org
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404

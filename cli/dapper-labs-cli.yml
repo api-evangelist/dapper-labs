@@ -1,0 +1,43 @@
+generated: '2026-07-18'
+method: searched
+source: https://github.com/onflow/flow-cli + developers.flow.com/tools/flow-cli
+name: Flow CLI
+binary: flow
+repo: https://github.com/onflow/flow-cli
+docs: https://developers.flow.com/tools/flow-cli
+install:
+  - method: script
+    command: 'sh -ci "$(curl -fsSL https://raw.githubusercontent.com/onflow/flow-cli/master/install.sh)"'
+  - method: homebrew
+    command: brew install flow-cli
+command_groups:
+  - group: accounts
+    description: Create, get, and manage Flow accounts and their keys.
+  - group: transactions
+    description: Build, sign, send, and inspect Cadence transactions.
+  - group: scripts
+    description: Execute read-only Cadence scripts against the network.
+  - group: keys
+    description: Generate and derive account key pairs.
+  - group: blocks
+    description: Query blocks by height or ID.
+  - group: events
+    description: Retrieve on-chain events by type and block range.
+  - group: collections
+    description: Fetch transaction collections.
+  - group: project
+    description: Manage a Flow project (flow.json), deploy contracts.
+  - group: emulator
+    description: Run a local Flow emulator for development.
+  - group: dev-wallet
+    description: Run a local FCL dev wallet for testing auth flows.
+  - group: cadence
+    description: Cadence language tooling (test, lint, language server).
+  - group: dependencies
+    description: Install and manage on-chain contract dependencies.
+  - group: generate
+    description: Scaffold contracts, transactions, scripts, and tests.
+key_flows:
+  - "Deploy Cadence contracts to Emulator/Testnet/Mainnet via `flow project deploy`."
+  - "Execute a script: `flow scripts execute <cadence.cdc>`."
+  - "Send a transaction: `flow transactions send <cadence.cdc>`."

@@ -1,0 +1,23 @@
+generated: '2026-07-18'
+method: searched
+source: openapi/dapper-labs-flow-access-openapi-original.yml (/subscribe_events) + developers.flow.com WebSocket Streaming API
+spec_type: Webhooks
+surface: websocket-streaming
+note: >-
+  Flow does not push HTTP webhooks. It exposes a real-time PUSH event surface via
+  WebSocket subscriptions on the Access API. Agents/clients subscribe and receive
+  on-chain events as blocks are sealed. Captured here as the provider's event
+  surface (agent-readiness asyncapi_events dimension).
+channels:
+  - name: subscribe_events
+    protocol: websocket
+    endpoint: wss://rest-mainnet.onflow.org/v1/subscribe_events
+    endpoint_testnet: wss://rest-testnet.onflow.org/v1/subscribe_events
+    description: Subscribe to on-chain events, optionally filtered by event type / contract / block range.
+    message: Event { type, transaction_id, transaction_index, event_index, payload }
+  - name: websocket-streaming-api
+    protocol: websocket
+    docs: https://developers.flow.com/networks/access-onchain-data/websockets-stream-api
+    description: >-
+      Flow WebSocket Streaming API — subscribe to blocks, block headers, block digests,
+      transaction statuses, account statuses, and events over a single connection.

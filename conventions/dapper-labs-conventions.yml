@@ -1,0 +1,36 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/dapper-labs-flow-access-openapi-original.yml + developers.flow.com
+authentication:
+  style: none
+  note: >-
+    The Flow Access API is a public, unauthenticated blockchain node API. There are
+    no API keys, OAuth, or bearer tokens. Access control is at the network layer
+    (choose a public access node or run your own).
+idempotency:
+  supported: false
+  note: >-
+    No Idempotency-Key header. Transactions are naturally idempotent by their content
+    hash / transaction ID (resubmitting the same signed transaction references the
+    same on-chain transaction), but there is no HTTP idempotency-key contract.
+pagination:
+  style: height-range + cursor links
+  params: [start_height, end_height, start_id, end_id]
+  response_fields: [_links, _expandable]
+  note: Block/event/transaction collections are queried by block-height range; _links carries navigation.
+expansion:
+  supported: true
+  params: [expand, select]
+  note: Sub-resources can be expanded with ?expand= and fields narrowed with ?select=.
+content_negotiation:
+  note: 'Docs support Accept: text/markdown / text/plain for machine-readable docs.'
+error_envelope:
+  media_type: application/json
+  shape: { code: integer, message: string }
+  cross_ref: errors/dapper-labs-problem-types.yml
+rate_limiting:
+  note: Public access nodes may rate-limit by IP; no standard rate-limit headers documented. Run a dedicated/self-hosted access node for higher throughput.
+cross_links:
+  errors: errors/dapper-labs-problem-types.yml
+  lifecycle: lifecycle/dapper-labs-lifecycle.yml
+  data_model: data-model/dapper-labs-data-model.yml

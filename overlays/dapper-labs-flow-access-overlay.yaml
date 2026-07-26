@@ -1,0 +1,23 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Flow Access API (Dapper Labs)
+  version: 1.0.0
+extends: openapi/dapper-labs-flow-access-openapi-original.yml
+actions:
+  - target: $.info
+    update:
+      x-apievangelist-provider: dapper-labs
+      x-apievangelist-note: >-
+        Public unauthenticated Flow blockchain node API. Companion gRPC service in
+        grpc/dapper-labs-flow-access.proto; WebSocket event streaming in asyncapi/.
+      x-agentic-access: agentic-access/dapper-labs-agentic-access.yml
+  - target: $.info
+    update:
+      x-apievangelist-conventions: conventions/dapper-labs-conventions.yml
+      x-apievangelist-errors: errors/dapper-labs-problem-types.yml
+      x-apievangelist-data-model: data-model/dapper-labs-data-model.yml
+  - target: $
+    update:
+      x-apievangelist-operationid-note: >-
+        The upstream spec defines no operationIds. Downstream artifacts (mcp/, skills/)
+        reference operations by HTTP method + path, which are stable and verifiable.

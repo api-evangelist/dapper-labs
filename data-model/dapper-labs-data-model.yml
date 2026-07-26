@@ -1,0 +1,65 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/dapper-labs-flow-access-openapi-original.yml (components.schemas $refs)
+entities:
+  - name: Block
+    key: id
+    fields: [id, height, timestamp, parent_id, collection_guarantees, block_seals]
+  - name: BlockHeader
+    key: id
+  - name: BlockPayload
+  - name: Collection
+    key: id
+    fields: [id, transactions]
+  - name: Transaction
+    key: id
+    fields: [id, script, arguments, reference_block_id, proposal_key, payer, authorizers, payload_signatures, envelope_signatures]
+  - name: TransactionResult
+    key: transaction_id
+    fields: [block_id, status, status_code, error_message, events]
+  - name: Account
+    key: address
+    fields: [address, balance, keys, contracts]
+  - name: AccountPublicKey
+    key: index
+  - name: AccountBalance
+  - name: Event
+    fields: [type, transaction_id, transaction_index, event_index, payload]
+  - name: ExecutionResult
+    key: id
+  - name: ExecutionReceipt
+  - name: NetworkParameters
+  - name: NodeVersionInfo
+relationships:
+  - from: Block
+    to: Collection
+    type: has_many
+    via: collection_guarantees
+  - from: Collection
+    to: Transaction
+    type: has_many
+    via: transactions
+  - from: Transaction
+    to: TransactionResult
+    type: has_one
+    via: transaction_id
+  - from: TransactionResult
+    to: Event
+    type: has_many
+    via: events
+  - from: Account
+    to: AccountPublicKey
+    type: has_many
+    via: keys
+  - from: Account
+    to: AccountBalance
+    type: has_one
+    via: balance
+  - from: Block
+    to: ExecutionResult
+    type: has_one
+    via: block_id
+  - from: ExecutionReceipt
+    to: ExecutionResult
+    type: belongs_to
+    via: result_id

@@ -1,0 +1,24 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/dapper-labs-flow-access-openapi-original.yml + grpc/dapper-labs-flow-access.proto
+standards:
+  - id: openapi-3.0
+    conforms: true
+    evidence: openapi/dapper-labs-flow-access-openapi-original.yml is OpenAPI 3.0.0
+  - id: grpc
+    conforms: true
+    evidence: grpc/dapper-labs-flow-access.proto — Flow AccessAPI gRPC service (proto3)
+  - id: websocket-streaming
+    conforms: true
+    evidence: GET /subscribe_events WebSocket endpoint + Flow WebSocket Streaming API
+  - id: oauth2
+    conforms: false
+    evidence: no securitySchemes — public unauthenticated blockchain node API
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: error envelope is {code, message}, not application/problem+json
+  - id: json-api
+    conforms: false
+  - id: cursor-pagination
+    conforms: true
+    evidence: block/event/transaction queries paginate by height range and _links

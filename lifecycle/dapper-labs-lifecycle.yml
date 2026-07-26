@@ -1,0 +1,21 @@
+generated: '2026-07-18'
+method: searched
+source: developers.flow.com + status.flow.com
+versioning:
+  scheme: uri-path
+  current: v1
+  docs: https://developers.flow.com/http-api
+deprecation:
+  policy_url: null
+  sunset_header: false
+  note: No formal RFC 8594 deprecation/Sunset header policy published for the REST Access API.
+sla:
+  url: null
+status_page: https://status.flow.com/
+status_platform: Atlassian Statuspage
+monitored_components:
+  - Flow Testnet
+  - Flow Mainnet core (Collection Finalization, Block Finalization, Transaction Execution, Block Sealing)
+  - Flow Mainnet Access APIs (gRPC API, gRPC Web API, REST API)
+  - EVM Gateway
+deprecated_operations: []

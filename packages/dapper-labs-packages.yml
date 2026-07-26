@@ -1,0 +1,69 @@
+generated: '2026-07-18'
+method: searched
+source: npm, PyPI, pkg.go.dev registries + developers.flow.com SDK docs
+note: >-
+  Dapper Labs created the Flow blockchain and maintains its client SDKs under the
+  onflow GitHub organization. These are the first-party client libraries for the
+  Flow Access API. flow-py-sdk is a community package (not first-party).
+packages:
+  - language: javascript
+    registry: npm
+    name: "@onflow/fcl"
+    url: https://www.npmjs.com/package/@onflow/fcl
+    install: npm install @onflow/fcl
+    latest: 1.21.11
+    description: High-level JavaScript/TypeScript library (Flow Client Library) for building web apps on Flow.
+    official: true
+  - language: javascript
+    registry: npm
+    name: "@onflow/sdk"
+    url: https://www.npmjs.com/package/@onflow/sdk
+    install: npm install @onflow/sdk
+    latest: 1.13.7
+    description: Low-level JavaScript/TypeScript SDK for interacting with the Flow blockchain.
+    official: true
+  - language: javascript
+    registry: npm
+    name: "@onflow/types"
+    url: https://www.npmjs.com/package/@onflow/types
+    install: npm install @onflow/types
+    latest: 1.5.0
+    description: Utilities to transform JavaScript values into Cadence-understood arguments.
+    official: true
+  - language: javascript
+    registry: npm
+    name: "@onflow/transport-http"
+    url: https://www.npmjs.com/package/@onflow/transport-http
+    install: npm install @onflow/transport-http
+    latest: 1.15.6
+    description: Flow SDK HTTP transport module for the REST Access API.
+    official: true
+  - language: javascript
+    registry: npm
+    name: "@onflow/kit"
+    url: https://www.npmjs.com/package/@onflow/kit
+    install: npm install @onflow/kit
+    latest: 0.9.0
+    description: React library (hooks/components) for interacting with the Flow blockchain.
+    official: true
+  - language: go
+    registry: go
+    name: github.com/onflow/flow-go-sdk
+    url: https://pkg.go.dev/github.com/onflow/flow-go-sdk
+    install: go get github.com/onflow/flow-go-sdk
+    description: Official Go SDK for the Flow blockchain Access API (gRPC).
+    official: true
+  - language: cli
+    registry: github
+    name: flow-cli
+    url: https://github.com/onflow/flow-cli
+    install: 'sh -ci "$(curl -fsSL https://raw.githubusercontent.com/onflow/flow-cli/master/install.sh)"'
+    description: The Flow CLI binary (also `brew install flow-cli`). Command surface catalogued in cli/.
+    official: true
+  - language: python
+    registry: pypi
+    name: flow-py-sdk
+    url: https://pypi.org/project/flow-py-sdk/
+    install: pip install flow-py-sdk
+    description: Community Python SDK for the Flow blockchain (maintained by Janez Podhostnik, not first-party).
+    official: false

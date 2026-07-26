@@ -1,8 +1,16 @@
 aid: dapper-labs
 name: Dapper Labs
-description: 'Dapper Labs is a company surfaced as a portfolio company of a16z, gv, sv-angel, union-square-ventures,
-  version-one-ventures and added to the API Evangelist network as a stub for enrichment. Sector: crypto.
-  This profile is a lead awaiting the enrichment pipeline.'
+description: >-
+  Dapper Labs is the blockchain company behind the Flow network and a portfolio of
+  consumer NFT experiences including NBA Top Shot, NFL All Day, Disney Pinnacle, and
+  LaLiga Golazos. Its primary public developer surface is the Flow Access API — a
+  public, unauthenticated blockchain node API available over REST (rest-mainnet.onflow.org),
+  gRPC, and WebSocket event streaming — used to read on-chain data (blocks, transactions,
+  accounts, collections, events), execute read-only Cadence scripts, and submit signed
+  Cadence transactions. Flow and its client tooling (FCL, the Flow CLI, Go/JS SDKs) are
+  maintained under the onflow GitHub organization. This profile began as a VC-portfolio
+  stub and has been enriched by the API Evangelist pipeline from Dapper/Flow's real
+  developer artifacts.
 url: https://raw.githubusercontent.com/api-evangelist/dapper-labs/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -12,15 +20,275 @@ x-backed-by:
 - sv-angel
 - union-square-ventures
 - version-one-ventures
-x-tier: stub
-x-tier-reason: portfolio-lead
+x-tier: enriched
+x-tier-reason: portfolio-lead-enriched
+accessModel:
+  pricing: unknown
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Unknown
+  confidence: low
+  source: []
+  generated: '2026-07-22'
+  method: derived
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-18'
 tags:
 - Company
 - Crypto
-apis: []
+- Blockchain
+- Web3
+- NFT
+- Flow
+- Smart Contracts
+- Developer Tools
+image: https://developers.flow.com/img/flow-docs-logo-light.png
+apis:
+- aid: dapper-labs:dapper-labs-accounts-api
+  name: Dapper Labs Accounts API
+  description: The Accounts API from Dapper Labs — 4 operation(s) for accounts.
+  humanURL: https://developers.flow.com/http-api
+  baseURL: https://rest-mainnet.onflow.org/v1
+  tags:
+  - Accounts
+  properties:
+  - type: OpenAPI
+    url: openapi/dapper-labs-accounts-api-openapi.yml
+  - type: Protobuf
+    url: grpc/dapper-labs-flow-access.proto
+  - type: ErrorCatalog
+    url: errors/dapper-labs-problem-types.yml
+  - type: Conventions
+    url: conventions/dapper-labs-conventions.yml
+  - type: DataModel
+    url: data-model/dapper-labs-data-model.yml
+  - type: Documentation
+    url: https://developers.flow.com
+  - type: APIReference
+    url: https://developers.flow.com/http-api
+- aid: dapper-labs:dapper-labs-blocks-api
+  name: Dapper Labs Blocks API
+  description: The Blocks API from Dapper Labs — 3 operation(s) for blocks.
+  humanURL: https://developers.flow.com/http-api
+  baseURL: https://rest-mainnet.onflow.org/v1
+  tags:
+  - Blocks
+  properties:
+  - type: OpenAPI
+    url: openapi/dapper-labs-blocks-api-openapi.yml
+  - type: Protobuf
+    url: grpc/dapper-labs-flow-access.proto
+  - type: ErrorCatalog
+    url: errors/dapper-labs-problem-types.yml
+  - type: Conventions
+    url: conventions/dapper-labs-conventions.yml
+  - type: DataModel
+    url: data-model/dapper-labs-data-model.yml
+  - type: Documentation
+    url: https://developers.flow.com
+  - type: APIReference
+    url: https://developers.flow.com/http-api
+- aid: dapper-labs:dapper-labs-collections-api
+  name: Dapper Labs Collections API
+  description: The Collections API from Dapper Labs — 1 operation(s) for collections.
+  humanURL: https://developers.flow.com/http-api
+  baseURL: https://rest-mainnet.onflow.org/v1
+  tags:
+  - Collections
+  properties:
+  - type: OpenAPI
+    url: openapi/dapper-labs-collections-api-openapi.yml
+  - type: Protobuf
+    url: grpc/dapper-labs-flow-access.proto
+  - type: ErrorCatalog
+    url: errors/dapper-labs-problem-types.yml
+  - type: Conventions
+    url: conventions/dapper-labs-conventions.yml
+  - type: DataModel
+    url: data-model/dapper-labs-data-model.yml
+  - type: Documentation
+    url: https://developers.flow.com
+  - type: APIReference
+    url: https://developers.flow.com/http-api
+- aid: dapper-labs:dapper-labs-events-api
+  name: Dapper Labs Events API
+  description: The Events API from Dapper Labs — 1 operation(s) for events.
+  humanURL: https://developers.flow.com/http-api
+  baseURL: https://rest-mainnet.onflow.org/v1
+  tags:
+  - Events
+  properties:
+  - type: OpenAPI
+    url: openapi/dapper-labs-events-api-openapi.yml
+  - type: Protobuf
+    url: grpc/dapper-labs-flow-access.proto
+  - type: ErrorCatalog
+    url: errors/dapper-labs-problem-types.yml
+  - type: Conventions
+    url: conventions/dapper-labs-conventions.yml
+  - type: DataModel
+    url: data-model/dapper-labs-data-model.yml
+  - type: Documentation
+    url: https://developers.flow.com
+  - type: APIReference
+    url: https://developers.flow.com/http-api
+- aid: dapper-labs:dapper-labs-execution-receipts-api
+  name: Dapper Labs Execution Receipts API
+  description: The Execution Receipts API from Dapper Labs — 2 operation(s) for execution receipts.
+  humanURL: https://developers.flow.com/http-api
+  baseURL: https://rest-mainnet.onflow.org/v1
+  tags:
+  - Execution Receipts
+  properties:
+  - type: OpenAPI
+    url: openapi/dapper-labs-execution-receipts-api-openapi.yml
+  - type: Protobuf
+    url: grpc/dapper-labs-flow-access.proto
+  - type: ErrorCatalog
+    url: errors/dapper-labs-problem-types.yml
+  - type: Conventions
+    url: conventions/dapper-labs-conventions.yml
+  - type: DataModel
+    url: data-model/dapper-labs-data-model.yml
+  - type: Documentation
+    url: https://developers.flow.com
+  - type: APIReference
+    url: https://developers.flow.com/http-api
+- aid: dapper-labs:dapper-labs-execution-results-api
+  name: Dapper Labs Execution Results API
+  description: The Execution Results API from Dapper Labs — 2 operation(s) for execution results.
+  humanURL: https://developers.flow.com/http-api
+  baseURL: https://rest-mainnet.onflow.org/v1
+  tags:
+  - Execution Results
+  properties:
+  - type: OpenAPI
+    url: openapi/dapper-labs-execution-results-api-openapi.yml
+  - type: Protobuf
+    url: grpc/dapper-labs-flow-access.proto
+  - type: ErrorCatalog
+    url: errors/dapper-labs-problem-types.yml
+  - type: Conventions
+    url: conventions/dapper-labs-conventions.yml
+  - type: DataModel
+    url: data-model/dapper-labs-data-model.yml
+  - type: Documentation
+    url: https://developers.flow.com
+  - type: APIReference
+    url: https://developers.flow.com/http-api
+- aid: dapper-labs:dapper-labs-network-api
+  name: Dapper Labs Network API
+  description: The Network API from Dapper Labs — 1 operation(s) for network.
+  humanURL: https://developers.flow.com/http-api
+  baseURL: https://rest-mainnet.onflow.org/v1
+  tags:
+  - Network
+  properties:
+  - type: OpenAPI
+    url: openapi/dapper-labs-network-api-openapi.yml
+  - type: Protobuf
+    url: grpc/dapper-labs-flow-access.proto
+  - type: ErrorCatalog
+    url: errors/dapper-labs-problem-types.yml
+  - type: Conventions
+    url: conventions/dapper-labs-conventions.yml
+  - type: DataModel
+    url: data-model/dapper-labs-data-model.yml
+  - type: Documentation
+    url: https://developers.flow.com
+  - type: APIReference
+    url: https://developers.flow.com/http-api
+- aid: dapper-labs:dapper-labs-nodeversioninfo-api
+  name: Dapper Labs NodeVersionInfo API
+  description: The NodeVersionInfo API from Dapper Labs — 1 operation(s) for nodeversioninfo.
+  humanURL: https://developers.flow.com/http-api
+  baseURL: https://rest-mainnet.onflow.org/v1
+  tags:
+  - NodeVersionInfo
+  properties:
+  - type: OpenAPI
+    url: openapi/dapper-labs-nodeversioninfo-api-openapi.yml
+  - type: Protobuf
+    url: grpc/dapper-labs-flow-access.proto
+  - type: ErrorCatalog
+    url: errors/dapper-labs-problem-types.yml
+  - type: Conventions
+    url: conventions/dapper-labs-conventions.yml
+  - type: DataModel
+    url: data-model/dapper-labs-data-model.yml
+  - type: Documentation
+    url: https://developers.flow.com
+  - type: APIReference
+    url: https://developers.flow.com/http-api
+- aid: dapper-labs:dapper-labs-scripts-api
+  name: Dapper Labs Scripts API
+  description: The Scripts API from Dapper Labs — 1 operation(s) for scripts.
+  humanURL: https://developers.flow.com/http-api
+  baseURL: https://rest-mainnet.onflow.org/v1
+  tags:
+  - Scripts
+  properties:
+  - type: OpenAPI
+    url: openapi/dapper-labs-scripts-api-openapi.yml
+  - type: Protobuf
+    url: grpc/dapper-labs-flow-access.proto
+  - type: ErrorCatalog
+    url: errors/dapper-labs-problem-types.yml
+  - type: Conventions
+    url: conventions/dapper-labs-conventions.yml
+  - type: DataModel
+    url: data-model/dapper-labs-data-model.yml
+  - type: Documentation
+    url: https://developers.flow.com
+  - type: APIReference
+    url: https://developers.flow.com/http-api
+- aid: dapper-labs:dapper-labs-subscribe-events-api
+  name: Dapper Labs Subscribe events API
+  description: The Subscribe events API from Dapper Labs — 1 operation(s) for subscribe events.
+  humanURL: https://developers.flow.com/http-api
+  baseURL: https://rest-mainnet.onflow.org/v1
+  tags:
+  - Subscribe events
+  properties:
+  - type: OpenAPI
+    url: openapi/dapper-labs-subscribe-events-api-openapi.yml
+  - type: Protobuf
+    url: grpc/dapper-labs-flow-access.proto
+  - type: ErrorCatalog
+    url: errors/dapper-labs-problem-types.yml
+  - type: Conventions
+    url: conventions/dapper-labs-conventions.yml
+  - type: DataModel
+    url: data-model/dapper-labs-data-model.yml
+  - type: Documentation
+    url: https://developers.flow.com
+  - type: APIReference
+    url: https://developers.flow.com/http-api
+- aid: dapper-labs:dapper-labs-transactions-api
+  name: Dapper Labs Transactions API
+  description: The Transactions API from Dapper Labs — 4 operation(s) for transactions.
+  humanURL: https://developers.flow.com/http-api
+  baseURL: https://rest-mainnet.onflow.org/v1
+  tags:
+  - Transactions
+  properties:
+  - type: OpenAPI
+    url: openapi/dapper-labs-transactions-api-openapi.yml
+  - type: Protobuf
+    url: grpc/dapper-labs-flow-access.proto
+  - type: ErrorCatalog
+    url: errors/dapper-labs-problem-types.yml
+  - type: Conventions
+    url: conventions/dapper-labs-conventions.yml
+  - type: DataModel
+    url: data-model/dapper-labs-data-model.yml
+  - type: Documentation
+    url: https://developers.flow.com
+  - type: APIReference
+    url: https://developers.flow.com/http-api
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -29,3 +297,46 @@ maintainers:
 common:
 - type: Website
   url: https://dapperlabs.com
+- type: DeveloperPortal
+  url: https://developers.flow.com
+- type: Documentation
+  url: https://developers.flow.com
+- type: APIReference
+  url: https://developers.flow.com/http-api
+- type: GettingStarted
+  url: https://developers.flow.com/build/getting-started/contract-interaction
+- type: GitHubOrganization
+  url: https://github.com/onflow
+- type: Blog
+  url: https://flow.com/blog
+- type: Packages
+  url: packages/dapper-labs-packages.yml
+- type: SDKs
+  url: packages/dapper-labs-packages.yml
+- type: CLI
+  url: cli/dapper-labs-cli.yml
+- type: Sandbox
+  url: sandbox/dapper-labs-sandbox.yml
+- type: WellKnown
+  url: well-known/dapper-labs-well-known.yml
+- type: Lifecycle
+  url: lifecycle/dapper-labs-lifecycle.yml
+- type: StatusPage
+  url: https://status.flow.com
+- type: Conformance
+  url: conformance/dapper-labs-conformance.yml
+- type: Webhooks
+  url: asyncapi/dapper-labs-flow-events-webhooks.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: LLMsTxt
+  url: llms/dapper-labs-llms.txt
+- type: DomainSecurity
+  url: security/dapper-labs-domain-security.yml
+- type: AgenticAccess
+  url: agentic-access/dapper-labs-agentic-access.yml
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence

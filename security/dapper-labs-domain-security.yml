@@ -1,0 +1,33 @@
+generated: '2026-07-18'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: dapperlabs.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct 14 06:59:28 2026 GMT
+  hsts: true
+  hsts_max_age: 63072000
+- host: rest-testnet.onflow.org
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Sep  4 16:45:40 2026 GMT
+  hsts: null
+- host: rest-mainnet.onflow.org
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Sep 20 12:20:54 2026 GMT
+  hsts: null
+domains:
+- domain: dapperlabs.com
+  dnssec: false
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: reject
+- domain: onflow.org
+  dnssec: false
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: reject

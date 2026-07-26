@@ -1,0 +1,27 @@
+generated: '2026-07-18'
+method: searched
+source: developers.flow.com testing/network docs
+note: >-
+  Flow separates live (Mainnet) from test surfaces via distinct networks, not test
+  key prefixes. Developers test against Testnet, a local Flow Emulator, or the
+  Testnet Faucet. Values below are published verbatim; none are invented.
+networks:
+  - name: Flow Mainnet
+    rest: https://rest-mainnet.onflow.org/v1
+    live: true
+  - name: Flow Testnet
+    rest: https://rest-testnet.onflow.org/v1
+    live: false
+    description: Public test network mirroring Mainnet for integration testing.
+emulator:
+  name: Flow Emulator
+  launch: flow emulator
+  rest_default: http://localhost:8888/v1
+  description: Local single-node Flow blockchain shipped with the Flow CLI for offline development.
+faucet:
+  url: https://testnet-faucet.onflow.org/
+  description: Funds Testnet accounts with test FLOW tokens; also creates test accounts.
+dev_tools:
+  - name: Flow Dev Wallet
+    launch: flow dev-wallet
+    description: Local FCL-compatible wallet for testing authentication/signing flows against the emulator.

@@ -1,0 +1,34 @@
+{
+  "provider": "dapper-labs",
+  "sources": [
+    "dapper-labs-accounts-api-openapi.yml",
+    "dapper-labs-blocks-api-openapi.yml",
+    "dapper-labs-collections-api-openapi.yml",
+    "dapper-labs-events-api-openapi.yml",
+    "dapper-labs-execution-receipts-api-openapi.yml",
+    "dapper-labs-execution-results-api-openapi.yml",
+    "dapper-labs-network-api-openapi.yml",
+    "dapper-labs-nodeversioninfo-api-openapi.yml",
+    "dapper-labs-scripts-api-openapi.yml",
+    "dapper-labs-subscribe-events-api-openapi.yml",
+    "dapper-labs-transactions-api-openapi.yml"
+  ],
+  "outputs": [
+    "dapper-labs-accounts-api-openapi.yml",
+    "dapper-labs-blocks-api-openapi.yml",
+    "dapper-labs-collections-api-openapi.yml",
+    "dapper-labs-events-api-openapi.yml",
+    "dapper-labs-execution-receipts-api-openapi.yml",
+    "dapper-labs-execution-results-api-openapi.yml",
+    "dapper-labs-network-api-openapi.yml",
+    "dapper-labs-nodeversioninfo-api-openapi.yml",
+    "dapper-labs-scripts-api-openapi.yml",
+    "dapper-labs-subscribe-events-api-openapi.yml",
+    "dapper-labs-transactions-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
