@@ -1,0 +1,104 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Access Accounts Execution Results API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Execution Results",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Execution Results by Block ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest-testnet.onflow.org/v1/execution_results",
+            "params": [
+              {
+                "name": "block_id",
+                "value": "",
+                "type": "query",
+                "description": "Single ID or comma-separated list of block IDs."
+              },
+              {
+                "name": "select",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list indicating which properties of the content to return."
+              },
+              {
+                "name": "agreeing_executors_count",
+                "value": "",
+                "type": "query",
+                "description": "A minimum number of execution receipts for the execution result."
+              },
+              {
+                "name": "required_executor_ids",
+                "value": "",
+                "type": "query",
+                "description": "A set of execution node IDs, one of which must have produced the execution result."
+              },
+              {
+                "name": "include_executor_metadata",
+                "value": "",
+                "type": "query",
+                "description": "Specifies whether or not to include the executor metadata in the response."
+              }
+            ]
+          },
+          "docs": "Get execution result by provided block ID or multiple block IDs provided as comma-seperated list."
+        },
+        {
+          "info": {
+            "name": "Get Execution Result by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest-testnet.onflow.org/v1/execution_results/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the execution result."
+              },
+              {
+                "name": "select",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list indicating which properties of the content to return."
+              },
+              {
+                "name": "agreeing_executors_count",
+                "value": "",
+                "type": "query",
+                "description": "A minimum number of execution receipts for the execution result."
+              },
+              {
+                "name": "required_executor_ids",
+                "value": "",
+                "type": "query",
+                "description": "A set of execution node IDs, one of which must have produced the execution result."
+              },
+              {
+                "name": "include_executor_metadata",
+                "value": "",
+                "type": "query",
+                "description": "Specifies whether or not to include the executor metadata in the response."
+              }
+            ]
+          },
+          "docs": "Get execution result by provided execution result ID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

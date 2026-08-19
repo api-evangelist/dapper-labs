@@ -1,0 +1,79 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Access Accounts Events API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Events",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest-testnet.onflow.org/v1/events",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "The event type is [identifier of the event as defined here](https://docs.onflow.org/core-contracts/flow-token/#events)."
+              },
+              {
+                "name": "start_height",
+                "value": "",
+                "type": "query",
+                "description": "The start height of the block range for events. Must be used together with `end_height`. This parameter is incompatible with `block_ids`."
+              },
+              {
+                "name": "end_height",
+                "value": "",
+                "type": "query",
+                "description": "The end height of the block range for events. Must be used together with `start_height`. This parameter is incompatible with `block_ids`."
+              },
+              {
+                "name": "block_ids",
+                "value": "",
+                "type": "query",
+                "description": "List of block IDs. Either provide this parameter or both height parameters. This parameter is incompatible with heights parameters."
+              },
+              {
+                "name": "select",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list indicating which properties of the content to return."
+              },
+              {
+                "name": "agreeing_executors_count",
+                "value": "",
+                "type": "query",
+                "description": "A minimum number of execution receipts for the execution result."
+              },
+              {
+                "name": "required_executor_ids",
+                "value": "",
+                "type": "query",
+                "description": "A set of execution node IDs, one of which must have produced the execution result."
+              },
+              {
+                "name": "include_executor_metadata",
+                "value": "",
+                "type": "query",
+                "description": "Specifies whether or not to include the executor metadata in the response."
+              }
+            ]
+          },
+          "docs": "Query on-chain events by their name in the specified blocks heights or block IDs."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

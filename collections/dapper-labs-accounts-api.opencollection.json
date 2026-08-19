@@ -1,0 +1,244 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Access Accounts API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Accounts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get an Account By Address",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest-testnet.onflow.org/v1/accounts/:address",
+            "params": [
+              {
+                "name": "address",
+                "value": "",
+                "type": "path",
+                "description": "The address of the account."
+              },
+              {
+                "name": "block_height",
+                "value": "",
+                "type": "query",
+                "description": "The block height to query for the account details at the \"sealed\" is used by default."
+              },
+              {
+                "name": "expand",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list indicating which properties of the content to expand."
+              },
+              {
+                "name": "select",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list indicating which properties of the content to return."
+              },
+              {
+                "name": "agreeing_executors_count",
+                "value": "",
+                "type": "query",
+                "description": "A minimum number of execution receipts for the execution result."
+              },
+              {
+                "name": "required_executor_ids",
+                "value": "",
+                "type": "query",
+                "description": "A set of execution node IDs, one of which must have produced the execution result."
+              },
+              {
+                "name": "include_executor_metadata",
+                "value": "",
+                "type": "query",
+                "description": "Specifies whether or not to include the executor metadata in the response."
+              }
+            ]
+          },
+          "docs": "Get an account data by provided address in latest \"sealed\" block or by provided block height."
+        },
+        {
+          "info": {
+            "name": "Get an individual Account Key By Address and Index",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest-testnet.onflow.org/v1/accounts/:address/keys/:index",
+            "params": [
+              {
+                "name": "address",
+                "value": "",
+                "type": "path",
+                "description": "The address of the account."
+              },
+              {
+                "name": "index",
+                "value": "",
+                "type": "path",
+                "description": "The index of the account key."
+              },
+              {
+                "name": "block_height",
+                "value": "",
+                "type": "query",
+                "description": "The block height to query for the account details at the \"sealed\" is used by default."
+              },
+              {
+                "name": "expand",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list indicating which properties of the content to expand."
+              },
+              {
+                "name": "select",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list indicating which properties of the content to return."
+              },
+              {
+                "name": "agreeing_executors_count",
+                "value": "",
+                "type": "query",
+                "description": "A minimum number of execution receipts for the execution result."
+              },
+              {
+                "name": "required_executor_ids",
+                "value": "",
+                "type": "query",
+                "description": "A set of execution node IDs, one of which must have produced the execution result."
+              },
+              {
+                "name": "include_executor_metadata",
+                "value": "",
+                "type": "query",
+                "description": "Specifies whether or not to include the executor metadata in the response."
+              }
+            ]
+          },
+          "docs": "Get an account data by provided address in latest \"sealed\" block or by provided block height."
+        },
+        {
+          "info": {
+            "name": "Get Account Keys By Address",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest-testnet.onflow.org/v1/accounts/:address/keys",
+            "params": [
+              {
+                "name": "address",
+                "value": "",
+                "type": "path",
+                "description": "The address of the account."
+              },
+              {
+                "name": "block_height",
+                "value": "",
+                "type": "query",
+                "description": "The block height to query for the account details. \"sealed\" is used by default."
+              },
+              {
+                "name": "expand",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list indicating which properties of the content to expand."
+              },
+              {
+                "name": "select",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list indicating which properties of the content to return."
+              },
+              {
+                "name": "agreeing_executors_count",
+                "value": "",
+                "type": "query",
+                "description": "A minimum number of execution receipts for the execution result."
+              },
+              {
+                "name": "required_executor_ids",
+                "value": "",
+                "type": "query",
+                "description": "A set of execution node IDs, one of which must have produced the execution result."
+              },
+              {
+                "name": "include_executor_metadata",
+                "value": "",
+                "type": "query",
+                "description": "Specifies whether or not to include the executor metadata in the response."
+              }
+            ]
+          },
+          "docs": "Get an account data by provided address in latest \"sealed\" block or by provided block height."
+        },
+        {
+          "info": {
+            "name": "Get account balance by Address and BlockHeight.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest-testnet.onflow.org/v1/accounts/:address/balance",
+            "params": [
+              {
+                "name": "address",
+                "value": "",
+                "type": "path",
+                "description": "The address of the account."
+              },
+              {
+                "name": "block_height",
+                "value": "",
+                "type": "query",
+                "description": "The block height at which to query for the account details. \"sealed\" is used by default."
+              },
+              {
+                "name": "expand",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list indicating which properties of the content to expand."
+              },
+              {
+                "name": "select",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list indicating which properties of the content to return."
+              },
+              {
+                "name": "agreeing_executors_count",
+                "value": "",
+                "type": "query",
+                "description": "A minimum number of execution receipts for the execution result."
+              },
+              {
+                "name": "required_executor_ids",
+                "value": "",
+                "type": "query",
+                "description": "A set of execution node IDs, one of which must have produced the execution result."
+              },
+              {
+                "name": "include_executor_metadata",
+                "value": "",
+                "type": "query",
+                "description": "Specifies whether or not to include the executor metadata in the response."
+              }
+            ]
+          },
+          "docs": "Get an account's balance by the provided address and block height."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

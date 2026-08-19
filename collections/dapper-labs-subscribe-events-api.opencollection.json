@@ -1,0 +1,67 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Access Accounts Subscribe events API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Subscribe events",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Subscribe events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest-testnet.onflow.org/v1/subscribe_events",
+            "params": [
+              {
+                "name": "start_height",
+                "value": "",
+                "type": "query",
+                "description": "The block height of the events being streamed. Either provide this parameter or `start_block_id` parameter. This parameter is incompatible with `start_block_id` parameter."
+              },
+              {
+                "name": "start_block_id",
+                "value": "",
+                "type": "query",
+                "description": "The block id of the events being streamed. Either provide this parameter or `start_height` parameter. This parameter is incompatible with `start_height` parameter."
+              },
+              {
+                "name": "heartbeat_interval",
+                "value": "",
+                "type": "query",
+                "description": "Interval in block heights at which the server should return a heartbeat message to the client."
+              },
+              {
+                "name": "event_types",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list of events type to include."
+              },
+              {
+                "name": "addresses",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list of addresses who's events should be included."
+              },
+              {
+                "name": "contracts",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list of contracts who's events should be included."
+              }
+            ]
+          },
+          "docs": "IMPORTANT NOTE: This is a WebSocket connection, so the `ws://` or `wss://` schema should be used to subscribe to this endpoint.\n\nThis endpoint streams on-chain events for all blocks starting at the requested start block, up until the latest available block. Once the latest block is reached, the stream will remain open, and responses will be sent for each new block as it becomes available.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

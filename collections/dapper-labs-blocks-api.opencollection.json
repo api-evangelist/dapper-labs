@@ -1,0 +1,123 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Access Accounts Blocks API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Blocks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Gets Blocks by Height",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest-testnet.onflow.org/v1/blocks",
+            "params": [
+              {
+                "name": "height",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list of block heights to get. This parameter is incompatible with `start_height` and `end_height`."
+              },
+              {
+                "name": "start_height",
+                "value": "",
+                "type": "query",
+                "description": "The start height of the block range to get. Must be used together with `end_height`. This parameter is incompatible with `height`."
+              },
+              {
+                "name": "end_height",
+                "value": "",
+                "type": "query",
+                "description": "The ending height of the block range to get. Must be used together with `start_height`. This parameter is incompatible with `height`."
+              },
+              {
+                "name": "expand",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list indicating which properties of the content to expand."
+              },
+              {
+                "name": "select",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list indicating which properties of the content to return."
+              }
+            ]
+          },
+          "docs": "Get block data by the provided height range or list of heights."
+        },
+        {
+          "info": {
+            "name": "Get Blocks by ID.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest-testnet.onflow.org/v1/blocks/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "A block ID or comma-separated list of block IDs."
+              },
+              {
+                "name": "expand",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list indicating which properties of the content to expand."
+              },
+              {
+                "name": "select",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list indicating which properties of the content to return."
+              }
+            ]
+          },
+          "docs": "Get a block data or list of blocks by the provided ID or list of IDs."
+        },
+        {
+          "info": {
+            "name": "Get Block Payload by Block ID.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest-testnet.onflow.org/v1/blocks/:id/payload",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "A block ID."
+              },
+              {
+                "name": "expand",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list indicating which properties of the content to expand."
+              },
+              {
+                "name": "select",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list indicating which properties of the content to return."
+              }
+            ]
+          },
+          "docs": "Get a block payload data by the provided block ID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

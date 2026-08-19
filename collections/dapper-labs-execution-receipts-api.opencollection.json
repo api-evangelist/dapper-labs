@@ -1,0 +1,80 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Access Accounts Execution Receipts API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Execution Receipts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Execution Receipts by Block ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest-testnet.onflow.org/v1/execution_receipts",
+            "params": [
+              {
+                "name": "block_id",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the block."
+              },
+              {
+                "name": "expand",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list indicating which properties of the content to expand."
+              },
+              {
+                "name": "select",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list indicating which properties of the content to return."
+              }
+            ]
+          },
+          "docs": "Get all execution receipts for the provided block ID."
+        },
+        {
+          "info": {
+            "name": "Get Execution Receipts by Result ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest-testnet.onflow.org/v1/execution_receipts/results/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the execution result."
+              },
+              {
+                "name": "expand",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list indicating which properties of the content to expand."
+              },
+              {
+                "name": "select",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list indicating which properties of the content to return."
+              }
+            ]
+          },
+          "docs": "Get all execution receipts for the provided execution result ID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,229 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Access Accounts Transactions API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Transactions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a Transaction by ID.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest-testnet.onflow.org/v1/transactions/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "A transaction identifier. This may be a 64-character hex-encoded transaction ID (e.g. `a1b2c3...`) or a uint64 scheduled transaction ID returned by the system contract."
+              },
+              {
+                "name": "block_id",
+                "value": "",
+                "type": "query",
+                "description": "A block ID optional parameter"
+              },
+              {
+                "name": "collection_id",
+                "value": "",
+                "type": "query",
+                "description": "A collection ID optional parameter."
+              },
+              {
+                "name": "expand",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list indicating which properties of the content to expand."
+              },
+              {
+                "name": "select",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list indicating which properties of the content to return."
+              }
+            ]
+          },
+          "docs": "Get a transaction data by the provided transaction ID. If the transaction is a scheduled transaction, it can alternatively be retrieved by the scheduled transaction ID field returned by the system contract."
+        },
+        {
+          "info": {
+            "name": "Get Transaction Results by block",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest-testnet.onflow.org/v1/transaction_results",
+            "params": [
+              {
+                "name": "block_id",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the block containing the transactions. The request may include either `block_id` or `block_height`, but not both."
+              },
+              {
+                "name": "block_height",
+                "value": "",
+                "type": "query",
+                "description": "The height of the block containing the transactions. The request may include either `block_id` or `block_height`, but not both."
+              },
+              {
+                "name": "expand",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list indicating which properties of the content to expand."
+              },
+              {
+                "name": "select",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list indicating which properties of the content to return."
+              },
+              {
+                "name": "agreeing_executors_count",
+                "value": "",
+                "type": "query",
+                "description": "A minimum number of execution receipts for the execution result."
+              },
+              {
+                "name": "required_executor_ids",
+                "value": "",
+                "type": "query",
+                "description": "A set of execution node IDs, one of which must have produced the execution result."
+              },
+              {
+                "name": "include_executor_metadata",
+                "value": "",
+                "type": "query",
+                "description": "Specifies whether or not to include the executor metadata in the response."
+              }
+            ]
+          },
+          "docs": "Retrieve a list of transaction results for a specific block. This includes results for submitted, system, and scheduled transactions."
+        },
+        {
+          "info": {
+            "name": "Get a Transaction Result by transaction ID or scheduled transaction ID.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest-testnet.onflow.org/v1/transaction_results/:transaction_id",
+            "params": [
+              {
+                "name": "transaction_id",
+                "value": "",
+                "type": "path",
+                "description": "A transaction identifier. This may be a 64-character hex-encoded transaction ID (e.g. `a1b2c3...`) or a uint64 scheduled transaction ID returned by the system contract."
+              },
+              {
+                "name": "block_id",
+                "value": "",
+                "type": "query",
+                "description": "A block ID optional parameter"
+              },
+              {
+                "name": "collection_id",
+                "value": "",
+                "type": "query",
+                "description": "A collection ID optional parameter."
+              },
+              {
+                "name": "expand",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list indicating which properties of the content to expand."
+              },
+              {
+                "name": "select",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list indicating which properties of the content to return."
+              },
+              {
+                "name": "agreeing_executors_count",
+                "value": "",
+                "type": "query",
+                "description": "A minimum number of execution receipts for the execution result."
+              },
+              {
+                "name": "required_executor_ids",
+                "value": "",
+                "type": "query",
+                "description": "A set of execution node IDs, one of which must have produced the execution result."
+              },
+              {
+                "name": "include_executor_metadata",
+                "value": "",
+                "type": "query",
+                "description": "Specifies whether or not to include the executor metadata in the response."
+              }
+            ]
+          },
+          "docs": "Get transaction result by the transaction's ID. If the transaction is a scheduled transaction, it can alternatively be retrieved by the scheduled transaction ID field returned by the system contract."
+        },
+        {
+          "info": {
+            "name": "Get Transactions by block",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://rest-testnet.onflow.org/v1/transactions",
+            "params": [
+              {
+                "name": "block_id",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the block containing the transactions. The request may include either `block_id` or `block_height`, but not both."
+              },
+              {
+                "name": "block_height",
+                "value": "",
+                "type": "query",
+                "description": "The height of the block containing the transactions. The request may include either `block_id` or `block_height`, but not both."
+              },
+              {
+                "name": "expand",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list indicating which properties of the content to expand."
+              },
+              {
+                "name": "select",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list indicating which properties of the content to return."
+              }
+            ]
+          },
+          "docs": "Retrieve a list of transactions for a specific block. This includes submitted, system, and scheduled transactions."
+        },
+        {
+          "info": {
+            "name": "Submit a Transaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rest-testnet.onflow.org/v1/transactions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Send a new signed transaction payload to the network with [required transaction fields](https://docs.onflow.org/flow-go-sdk/#transactions)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

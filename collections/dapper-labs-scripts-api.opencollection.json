@@ -1,0 +1,47 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Access Accounts Scripts API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Scripts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Execute a Cadence Script",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://rest-testnet.onflow.org/v1/scripts",
+            "params": [
+              {
+                "name": "block_id",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the block to execute the script against. For a specific block height, use `block_height` instead."
+              },
+              {
+                "name": "block_height",
+                "value": "",
+                "type": "query",
+                "description": "The height of the block to execute the script against. This parameter is incompatible with `block_id`."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Executes a read-only Cadence script against the execution state at the given block height or ID. If block height or ID is not specified, then the script is executed at the latest sealed block height."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,404 @@
+{
+  "item": [
+    {
+      "id": "fce29c02-f086-40f9-b631-953bc7a16db6",
+      "name": "Subscribe events",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "cb34d7f1-2bc2-4715-814a-e2eba95b3bad",
+          "name": "Subscribe events",
+          "request": {
+            "name": "Subscribe events",
+            "description": {
+              "content": "IMPORTANT NOTE: This is a WebSocket connection, so the `ws://` or `wss://` schema should be used to subscribe to this endpoint.\n\nThis endpoint streams on-chain events for all blocks starting at the requested start block, up until the latest available block. Once the latest block is reached, the stream will remain open, and responses will be sent for each new block as it becomes available.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "subscribe_events"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "start_height",
+                  "value": "<uint64>",
+                  "description": "The block height of the events being streamed. Either provide this parameter or `start_block_id` parameter. This parameter is incompatible with `start_block_id` parameter."
+                },
+                {
+                  "disabled": false,
+                  "key": "start_block_id",
+                  "value": "<hexadecimal>",
+                  "description": "The block id of the events being streamed. Either provide this parameter or `start_height` parameter. This parameter is incompatible with `start_height` parameter."
+                },
+                {
+                  "disabled": false,
+                  "key": "heartbeat_interval",
+                  "value": "<uint64>",
+                  "description": "Interval in block heights at which the server should return a heartbeat message to the client."
+                },
+                {
+                  "disabled": false,
+                  "key": "event_types",
+                  "value": "<string>",
+                  "description": "A comma-separated list of events type to include."
+                },
+                {
+                  "disabled": false,
+                  "key": "addresses",
+                  "value": "<string>",
+                  "description": "A comma-separated list of addresses who's events should be included."
+                },
+                {
+                  "disabled": false,
+                  "key": "contracts",
+                  "value": "<string>",
+                  "description": "A comma-separated list of contracts who's events should be included."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d02b0476-512e-47c9-b067-7c66b3d44762",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "subscribe_events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "start_height",
+                      "value": "<uint64>"
+                    },
+                    {
+                      "key": "start_block_id",
+                      "value": "<hexadecimal>"
+                    },
+                    {
+                      "key": "heartbeat_interval",
+                      "value": "<uint64>"
+                    },
+                    {
+                      "key": "event_types",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "addresses",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "contracts",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"BlockId\": \"<hexadecimal>\",\n  \"Height\": \"string\",\n  \"Events\": [\n    {\n      \"type\": \"<string>\",\n      \"transaction_id\": \"<hexadecimal>\",\n      \"transaction_index\": \"string\",\n      \"event_index\": \"string\",\n      \"payload\": \"string\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"transaction_id\": \"<hexadecimal>\",\n      \"transaction_index\": \"string\",\n      \"event_index\": \"string\",\n      \"payload\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a15d6af5-72b9-475f-9275-fa03674db7f3",
+              "name": "Bad Request\n\nAs OpenAPI does not support WebSocket description, the error code (1003) is actually returned in a close message instead of (400).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "subscribe_events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "start_height",
+                      "value": "<uint64>"
+                    },
+                    {
+                      "key": "start_block_id",
+                      "value": "<hexadecimal>"
+                    },
+                    {
+                      "key": "heartbeat_interval",
+                      "value": "<uint64>"
+                    },
+                    {
+                      "key": "event_types",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "addresses",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "contracts",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 4841,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "08fc365c-a8c7-4633-b868-91b9aee3255e",
+              "name": "Server Timeout\n\nAs OpenAPI does not support WebSocket description, this error code (1001) is actually returned in a close message instead of (408).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "subscribe_events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "start_height",
+                      "value": "<uint64>"
+                    },
+                    {
+                      "key": "start_block_id",
+                      "value": "<hexadecimal>"
+                    },
+                    {
+                      "key": "heartbeat_interval",
+                      "value": "<uint64>"
+                    },
+                    {
+                      "key": "event_types",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "addresses",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "contracts",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Request Timeout",
+              "code": 408,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 4841,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "26337024-4126-4704-8e28-d9ef568cec71",
+              "name": "Internal Server Error\n\nAs OpenAPI does not support WebSocket description, this error code (1011) is actually returned in a close message instead of (500).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "subscribe_events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "start_height",
+                      "value": "<uint64>"
+                    },
+                    {
+                      "key": "start_block_id",
+                      "value": "<hexadecimal>"
+                    },
+                    {
+                      "key": "heartbeat_interval",
+                      "value": "<uint64>"
+                    },
+                    {
+                      "key": "event_types",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "addresses",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "contracts",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 4841,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3f9f7064-91ca-432e-8bb8-8fcb29e801f0",
+              "name": "Service Unavailable\n\nAs OpenAPI does not support WebSocket description, this error code (1013) is actually returned in a close message instead of (503).\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "subscribe_events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "start_height",
+                      "value": "<uint64>"
+                    },
+                    {
+                      "key": "start_block_id",
+                      "value": "<hexadecimal>"
+                    },
+                    {
+                      "key": "heartbeat_interval",
+                      "value": "<uint64>"
+                    },
+                    {
+                      "key": "event_types",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "addresses",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "contracts",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 4841,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://rest-testnet.onflow.org/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "e1d20600-1135-4a04-94d7-7c1ae844ada4",
+    "name": "Access Accounts Subscribe events API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}
