@@ -1,7 +1,7 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   version: 1.0.0
-  title: Access Accounts NodeVersionInfo API
+  title: Access Node Version Info API
 servers:
 - url: https://rest-testnet.onflow.org/v1
   description: Flow Testnet
@@ -29,8 +29,33 @@ paths:
           $ref: '#/components/responses/404NotFound'
         '500':
           $ref: '#/components/responses/500InternalServerError'
+      operationId: getNodeVersionInfo
+      x-operation-id-source: derived
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+    CompatibleRange:
+      type: object
+      description: A compatible version range.
+      required:
+      - start_height
+      - end_height
+      properties:
+        start_height:
+          type: string
+        end_height:
+          type: string
+    Identifier:
+      description: A 32-byte unique identifier for an entity.
+      type: string
+      format: hexadecimal
+      pattern: '[a-fA-F0-9]{64}'
     NodeVersionInfo:
       type: object
       required:
@@ -63,38 +88,15 @@ components:
           format: uint64
         compatible_range:
           $ref: '#/components/schemas/CompatibleRange'
-    Identifier:
-      description: A 32-byte unique identifier for an entity.
-      type: string
-      format: hexadecimal
-      pattern: '[a-fA-F0-9]{64}'
-    Error:
-      type: object
-      properties:
-        code:
-          type: integer
-        message:
-          type: string
-    CompatibleRange:
-      type: object
-      description: A compatible version range.
-      required:
-      - start_height
-      - end_height
-      properties:
-        start_height:
-          type: string
-        end_height:
-          type: string
   responses:
-    500InternalServerError:
-      description: Internal Server Error
+    400BadRequest:
+      description: Bad Request
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    400BadRequest:
-      description: Bad Request
+    500InternalServerError:
+      description: Internal Server Error
       content:
         application/json:
           schema:

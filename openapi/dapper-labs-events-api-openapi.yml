@@ -1,7 +1,7 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   version: 1.0.0
-  title: Access Accounts Events API
+  title: Access Events API
 servers:
 - url: https://rest-testnet.onflow.org/v1
   description: Flow Testnet
@@ -70,107 +70,17 @@ paths:
       - $ref: '#/components/parameters/agreeingExecutorsCount'
       - $ref: '#/components/parameters/requiredExecutorIds'
       - $ref: '#/components/parameters/includeExecutorMetadata'
+      operationId: getEvents
+      x-operation-id-source: derived
 components:
-  parameters:
-    agreeingExecutorsCount:
-      description: A minimum number of execution receipts for the execution result.
-      name: agreeing_executors_count
-      in: query
-      allowEmptyValue: false
-      schema:
-        type: string
-        format: uint64
-      required: false
-    selectParam:
-      description: A comma-separated list indicating which properties of the content to return.
-      name: select
-      in: query
-      schema:
-        type: array
-        items:
-          type: string
-        minItems: 1
-        uniqueItems: true
-      explode: false
-      style: form
-      required: false
-    requiredExecutorIds:
-      description: A set of execution node IDs, one of which must have produced the execution result.
-      name: required_executor_ids
-      in: query
-      schema:
-        type: array
-        items:
-          $ref: '#/components/schemas/Identifier'
-        minItems: 1
-        uniqueItems: true
-      explode: false
-      style: form
-      required: false
-    includeExecutorMetadata:
-      description: Specifies whether or not to include the executor metadata in the response.
-      name: include_executor_metadata
-      in: query
-      allowEmptyValue: false
-      schema:
-        type: boolean
-      required: false
   schemas:
-    BlockHeight:
-      oneOf:
-      - type: string
-        format: uint64
-      - type: string
-        enum:
-        - final
-        - sealed
-    Metadata:
-      description: Contains data about the node's state at the time of the request.
+    Error:
       type: object
       properties:
-        executor_metadata:
-          $ref: '#/components/schemas/ExecutorMetadata'
-    Links:
-      type: object
-      properties:
-        _self:
+        code:
+          type: integer
+        message:
           type: string
-    ExecutorMetadata:
-      type: object
-      description: Contains data about the execution result used to serve the request.
-      properties:
-        execution_result_id:
-          $ref: '#/components/schemas/Identifier'
-        executor_ids:
-          type: array
-          items:
-            $ref: '#/components/schemas/Identifier'
-    Identifier:
-      description: A 32-byte unique identifier for an entity.
-      type: string
-      format: hexadecimal
-      pattern: '[a-fA-F0-9]{64}'
-    EventType:
-      description: The qualified event type.
-      type: string
-    BlockEvents:
-      type: object
-      properties:
-        block_id:
-          $ref: '#/components/schemas/Identifier'
-        block_height:
-          type: string
-        block_timestamp:
-          type: string
-          format: date-time
-        events:
-          type: array
-          items:
-            $ref: '#/components/schemas/Event'
-        metadata:
-          $ref: '#/components/schemas/Metadata'
-        _links:
-          $ref: '#/components/schemas/Links'
     Event:
       type: object
       required:
@@ -193,13 +103,105 @@ components:
         payload:
           type: string
           format: byte
-    Error:
+    EventType:
+      description: The qualified event type.
+      type: string
+    BlockHeight:
+      oneOf:
+      - type: string
+        format: uint64
+      - type: string
+        enum:
+        - final
+        - sealed
+    Metadata:
+      description: Contains data about the node's state at the time of the request.
       type: object
       properties:
-        code:
-          type: integer
-        message:
+        executor_metadata:
+          $ref: '#/components/schemas/ExecutorMetadata'
+    ExecutorMetadata:
+      type: object
+      description: Contains data about the execution result used to serve the request.
+      properties:
+        execution_result_id:
+          $ref: '#/components/schemas/Identifier'
+        executor_ids:
+          type: array
+          items:
+            $ref: '#/components/schemas/Identifier'
+    BlockEvents:
+      type: object
+      properties:
+        block_id:
+          $ref: '#/components/schemas/Identifier'
+        block_height:
           type: string
+        block_timestamp:
+          type: string
+          format: date-time
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/Event'
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        _links:
+          $ref: '#/components/schemas/Links'
+    Links:
+      type: object
+      properties:
+        _self:
+          type: string
+    Identifier:
+      description: A 32-byte unique identifier for an entity.
+      type: string
+      format: hexadecimal
+      pattern: '[a-fA-F0-9]{64}'
+  parameters:
+    selectParam:
+      description: A comma-separated list indicating which properties of the content to return.
+      name: select
+      in: query
+      schema:
+        type: array
+        items:
+          type: string
+        minItems: 1
+        uniqueItems: true
+      explode: false
+      style: form
+      required: false
+    includeExecutorMetadata:
+      description: Specifies whether or not to include the executor metadata in the response.
+      name: include_executor_metadata
+      in: query
+      allowEmptyValue: false
+      schema:
+        type: boolean
+      required: false
+    agreeingExecutorsCount:
+      description: A minimum number of execution receipts for the execution result.
+      name: agreeing_executors_count
+      in: query
+      allowEmptyValue: false
+      schema:
+        type: string
+        format: uint64
+      required: false
+    requiredExecutorIds:
+      description: A set of execution node IDs, one of which must have produced the execution result.
+      name: required_executor_ids
+      in: query
+      schema:
+        type: array
+        items:
+          $ref: '#/components/schemas/Identifier'
+        minItems: 1
+        uniqueItems: true
+      explode: false
+      style: form
+      required: false
   responses:
     400BadRequest:
       description: Bad Request

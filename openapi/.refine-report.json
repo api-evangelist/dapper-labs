@@ -1,17 +1,7 @@
 {
   "provider": "dapper-labs",
   "sources": [
-    "dapper-labs-accounts-api-openapi.yml",
-    "dapper-labs-blocks-api-openapi.yml",
-    "dapper-labs-collections-api-openapi.yml",
-    "dapper-labs-events-api-openapi.yml",
-    "dapper-labs-execution-receipts-api-openapi.yml",
-    "dapper-labs-execution-results-api-openapi.yml",
-    "dapper-labs-network-api-openapi.yml",
-    "dapper-labs-nodeversioninfo-api-openapi.yml",
-    "dapper-labs-scripts-api-openapi.yml",
-    "dapper-labs-subscribe-events-api-openapi.yml",
-    "dapper-labs-transactions-api-openapi.yml"
+    "_original/dapper-labs-flow-access-openapi-original.yml"
   ],
   "outputs": [
     "dapper-labs-accounts-api-openapi.yml",
@@ -29,6 +19,33 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "dapper-labs-flow-access-openapi-original.yml: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
+    "dapper-labs-flow-access-openapi-original.yml: declared missing tag: Accounts",
+    "dapper-labs-flow-access-openapi-original.yml: declared missing tag: Blocks",
+    "dapper-labs-flow-access-openapi-original.yml: declared missing tag: Collections",
+    "dapper-labs-flow-access-openapi-original.yml: declared missing tag: Events",
+    "dapper-labs-flow-access-openapi-original.yml: declared missing tag: Execution Receipts",
+    "dapper-labs-flow-access-openapi-original.yml: declared missing tag: Execution Results",
+    "dapper-labs-flow-access-openapi-original.yml: declared missing tag: Network",
+    "dapper-labs-flow-access-openapi-original.yml: declared missing tag: NodeVersionInfo",
+    "dapper-labs-flow-access-openapi-original.yml: declared missing tag: Scripts",
+    "dapper-labs-flow-access-openapi-original.yml: declared missing tag: Subscribe events",
+    "dapper-labs-flow-access-openapi-original.yml: declared missing tag: Transactions",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "dapper-labs-accounts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "dapper-labs-blocks-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "dapper-labs-collections-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "dapper-labs-events-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "dapper-labs-execution-receipts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "dapper-labs-execution-results-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "dapper-labs-network-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "dapper-labs-nodeversioninfo-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "dapper-labs-scripts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "dapper-labs-subscribe-events-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "dapper-labs-transactions-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

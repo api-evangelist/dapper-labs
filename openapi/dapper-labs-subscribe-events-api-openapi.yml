@@ -1,7 +1,7 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   version: 1.0.0
-  title: Access Accounts Subscribe events API
+  title: Access Subscribe events API
 servers:
 - url: https://rest-testnet.onflow.org/v1
   description: Flow Testnet
@@ -16,9 +16,7 @@ paths:
       description: 'IMPORTANT NOTE: This is a WebSocket connection, so the `ws://` or `wss://` schema should be used to subscribe to this endpoint.
 
 
-        This endpoint streams on-chain events for all blocks starting at the requested start block, up until the latest available block. Once the latest block is reached, the stream will remain open, and responses will be sent for each new block as it becomes available.
-
-        '
+        This endpoint streams on-chain events for all blocks starting at the requested start block, up until the latest available block. Once the latest block is reached, the stream will remain open, and responses will be sent for each new block as it becomes available.'
       tags:
       - Subscribe events
       responses:
@@ -91,24 +89,10 @@ paths:
             type: string
           minItems: 1
           uniqueItems: true
+      operationId: getSubscribeEvents
+      x-operation-id-source: derived
 components:
   schemas:
-    BlockHeight:
-      oneOf:
-      - type: string
-        format: uint64
-      - type: string
-        enum:
-        - final
-        - sealed
-    EventType:
-      description: The qualified event type.
-      type: string
-    Identifier:
-      description: A 32-byte unique identifier for an entity.
-      type: string
-      format: hexadecimal
-      pattern: '[a-fA-F0-9]{64}'
     Error:
       type: object
       properties:
@@ -138,6 +122,17 @@ components:
         payload:
           type: string
           format: byte
+    EventType:
+      description: The qualified event type.
+      type: string
+    BlockHeight:
+      oneOf:
+      - type: string
+        format: uint64
+      - type: string
+        enum:
+        - final
+        - sealed
     SubscribeEvents:
       type: object
       properties:
@@ -149,23 +144,28 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Event'
+    Identifier:
+      description: A 32-byte unique identifier for an entity.
+      type: string
+      format: hexadecimal
+      pattern: '[a-fA-F0-9]{64}'
   responses:
-    400BadRequestWS:
-      description: 'Bad Request
+    408ServerTimeoutWS:
+      description: 'Server Timeout
 
 
-        As OpenAPI does not support WebSocket description, the error code (1003) is actually returned in a close message instead of (400).
+        As OpenAPI does not support WebSocket description, this error code (1001) is actually returned in a close message instead of (408).
 
         '
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    408ServerTimeoutWS:
-      description: 'Server Timeout
+    400BadRequestWS:
+      description: 'Bad Request
 
 
-        As OpenAPI does not support WebSocket description, this error code (1001) is actually returned in a close message instead of (408).
+        As OpenAPI does not support WebSocket description, the error code (1003) is actually returned in a close message instead of (400).
 
         '
       content:

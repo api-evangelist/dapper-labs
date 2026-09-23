@@ -1,7 +1,7 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   version: 1.0.0
-  title: Access Accounts Blocks API
+  title: Access Blocks API
 servers:
 - url: https://rest-testnet.onflow.org/v1
   description: Flow Testnet
@@ -57,9 +57,11 @@ paths:
           $ref: '#/components/responses/404NotFound'
         '500':
           $ref: '#/components/responses/500InternalServerError'
+      operationId: getBlocks
+      x-operation-id-source: derived
   /blocks/{id}:
     get:
-      summary: Get Blocks by ID.
+      summary: Get Blocks by ID
       description: Get a block data or list of blocks by the provided ID or list of IDs.
       tags:
       - Blocks
@@ -93,9 +95,11 @@ paths:
           $ref: '#/components/responses/404NotFound'
         '500':
           $ref: '#/components/responses/500InternalServerError'
+      operationId: getBlocksById
+      x-operation-id-source: derived
   /blocks/{id}/payload:
     get:
-      summary: Get Block Payload by Block ID.
+      summary: Get Block Payload by Block ID
       description: Get a block payload data by the provided block ID.
       tags:
       - Blocks
@@ -122,8 +126,73 @@ paths:
           $ref: '#/components/responses/404NotFound'
         '500':
           $ref: '#/components/responses/500InternalServerError'
+      operationId: getBlocksByIdPayload
+      x-operation-id-source: derived
 components:
   schemas:
+    BlockPayload:
+      type: object
+      required:
+      - collection_guarantees
+      - block_seals
+      properties:
+        collection_guarantees:
+          type: array
+          items:
+            $ref: '#/components/schemas/CollectionGuarantee'
+          uniqueItems: true
+        block_seals:
+          type: array
+          items:
+            $ref: '#/components/schemas/BlockSeal'
+          uniqueItems: true
+    Links:
+      type: object
+      properties:
+        _self:
+          type: string
+    Identifier:
+      description: A 32-byte unique identifier for an entity.
+      type: string
+      format: hexadecimal
+      pattern: '[a-fA-F0-9]{64}'
+    Signature:
+      description: A variable length signature.
+      type: string
+      format: byte
+    BlockStatus:
+      type: string
+      description: This value indicates the status of a block.
+      enum:
+      - BLOCK_UNKNOWN
+      - BLOCK_FINALIZED
+      - BLOCK_SEALED
+    ExecutionResult:
+      type: object
+      required:
+      - id
+      - block_id
+      - events
+      - previous_result_id
+      properties:
+        id:
+          $ref: '#/components/schemas/Identifier'
+        block_id:
+          $ref: '#/components/schemas/Identifier'
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/Event'
+        chunks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Chunk'
+        previous_result_id:
+          $ref: '#/components/schemas/Identifier'
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        _links:
+          $ref: '#/components/schemas/Links'
     BlockHeight:
       oneOf:
       - type: string
@@ -132,14 +201,11 @@ components:
         enum:
         - final
         - sealed
-    Links:
-      type: object
-      properties:
-        _self:
-          type: string
-    EventType:
-      description: The qualified event type.
+    StateCommitment:
+      description: The root hash of the state tree.
       type: string
+      format: hexadecimal
+      pattern: '[a-fA-F0-9]{64}'
     CollectionGuarantee:
       type: object
       required:
@@ -184,67 +250,6 @@ components:
           format: date-time
         parent_voter_signature:
           $ref: '#/components/schemas/Signature'
-    Metadata:
-      description: Contains data about the node's state at the time of the request.
-      type: object
-      properties:
-        executor_metadata:
-          $ref: '#/components/schemas/ExecutorMetadata'
-    BlockPayload:
-      type: object
-      required:
-      - collection_guarantees
-      - block_seals
-      properties:
-        collection_guarantees:
-          type: array
-          items:
-            $ref: '#/components/schemas/CollectionGuarantee'
-          uniqueItems: true
-        block_seals:
-          type: array
-          items:
-            $ref: '#/components/schemas/BlockSeal'
-          uniqueItems: true
-    AggregatedSignature:
-      type: object
-      required:
-      - verifier_signatures
-      - signer_ids
-      properties:
-        verifier_signatures:
-          type: array
-          items:
-            $ref: '#/components/schemas/Signature'
-          minItems: 1
-          uniqueItems: true
-        signer_ids:
-          type: array
-          items:
-            $ref: '#/components/schemas/Identifier'
-          minItems: 1
-          uniqueItems: true
-    BlockStatus:
-      type: string
-      description: This value indicates the status of a block.
-      enum:
-      - BLOCK_UNKNOWN
-      - BLOCK_FINALIZED
-      - BLOCK_SEALED
-    Signature:
-      description: A variable length signature.
-      type: string
-      format: byte
-    ExecutorMetadata:
-      type: object
-      description: Contains data about the execution result used to serve the request.
-      properties:
-        execution_result_id:
-          $ref: '#/components/schemas/Identifier'
-        executor_ids:
-          type: array
-          items:
-            $ref: '#/components/schemas/Identifier'
     Event:
       type: object
       required:
@@ -267,61 +272,22 @@ components:
         payload:
           type: string
           format: byte
-    ExecutionResult:
+    Metadata:
+      description: Contains data about the node's state at the time of the request.
       type: object
-      required:
-      - id
-      - block_id
-      - events
-      - previous_result_id
       properties:
-        id:
+        executor_metadata:
+          $ref: '#/components/schemas/ExecutorMetadata'
+    ExecutorMetadata:
+      type: object
+      description: Contains data about the execution result used to serve the request.
+      properties:
+        execution_result_id:
           $ref: '#/components/schemas/Identifier'
-        block_id:
-          $ref: '#/components/schemas/Identifier'
-        events:
+        executor_ids:
           type: array
           items:
-            $ref: '#/components/schemas/Event'
-        chunks:
-          type: array
-          items:
-            $ref: '#/components/schemas/Chunk'
-        previous_result_id:
-          $ref: '#/components/schemas/Identifier'
-        metadata:
-          $ref: '#/components/schemas/Metadata'
-        _links:
-          $ref: '#/components/schemas/Links'
-    StateCommitment:
-      description: The root hash of the state tree.
-      type: string
-      format: hexadecimal
-      pattern: '[a-fA-F0-9]{64}'
-    Block:
-      type: object
-      required:
-      - header
-      - block_status
-      properties:
-        header:
-          $ref: '#/components/schemas/BlockHeader'
-        payload:
-          $ref: '#/components/schemas/BlockPayload'
-        execution_result:
-          $ref: '#/components/schemas/ExecutionResult'
-        _expandable:
-          type: object
-          properties:
-            payload:
-              type: string
-            execution_result:
-              type: string
-              format: uri
-        _links:
-          $ref: '#/components/schemas/Links'
-        block_status:
-          $ref: '#/components/schemas/BlockStatus'
+            $ref: '#/components/schemas/Identifier'
     BlockSeal:
       type: object
       required:
@@ -342,11 +308,6 @@ components:
             $ref: '#/components/schemas/AggregatedSignature'
           minItems: 1
           uniqueItems: true
-    Identifier:
-      description: A 32-byte unique identifier for an entity.
-      type: string
-      format: hexadecimal
-      pattern: '[a-fA-F0-9]{64}'
     Chunk:
       type: object
       required:
@@ -389,15 +350,60 @@ components:
           type: integer
         message:
           type: string
+    EventType:
+      description: The qualified event type.
+      type: string
+    AggregatedSignature:
+      type: object
+      required:
+      - verifier_signatures
+      - signer_ids
+      properties:
+        verifier_signatures:
+          type: array
+          items:
+            $ref: '#/components/schemas/Signature'
+          minItems: 1
+          uniqueItems: true
+        signer_ids:
+          type: array
+          items:
+            $ref: '#/components/schemas/Identifier'
+          minItems: 1
+          uniqueItems: true
+    Block:
+      type: object
+      required:
+      - header
+      - block_status
+      properties:
+        header:
+          $ref: '#/components/schemas/BlockHeader'
+        payload:
+          $ref: '#/components/schemas/BlockPayload'
+        execution_result:
+          $ref: '#/components/schemas/ExecutionResult'
+        _expandable:
+          type: object
+          properties:
+            payload:
+              type: string
+            execution_result:
+              type: string
+              format: uri
+        _links:
+          $ref: '#/components/schemas/Links'
+        block_status:
+          $ref: '#/components/schemas/BlockStatus'
   responses:
-    500InternalServerError:
-      description: Internal Server Error
+    400BadRequest:
+      description: Bad Request
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    400BadRequest:
-      description: Bad Request
+    500InternalServerError:
+      description: Internal Server Error
       content:
         application/json:
           schema:
@@ -409,9 +415,9 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
   parameters:
-    selectParam:
-      description: A comma-separated list indicating which properties of the content to return.
-      name: select
+    expandParam:
+      description: A comma-separated list indicating which properties of the content to expand.
+      name: expand
       in: query
       schema:
         type: array
@@ -422,9 +428,9 @@ components:
       explode: false
       style: form
       required: false
-    expandParam:
-      description: A comma-separated list indicating which properties of the content to expand.
-      name: expand
+    selectParam:
+      description: A comma-separated list indicating which properties of the content to return.
+      name: select
       in: query
       schema:
         type: array
