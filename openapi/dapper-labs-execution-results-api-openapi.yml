@@ -84,6 +84,16 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    Links:
+      type: object
+      properties:
+        _self:
+          type: string
+    Identifier:
+      description: A 32-byte unique identifier for an entity.
+      type: string
+      format: hexadecimal
+      pattern: '[a-fA-F0-9]{64}'
     Event:
       type: object
       required:
@@ -106,22 +116,6 @@ components:
         payload:
           type: string
           format: byte
-    EventType:
-      description: The qualified event type.
-      type: string
-    Error:
-      type: object
-      properties:
-        code:
-          type: integer
-        message:
-          type: string
-    Metadata:
-      description: Contains data about the node's state at the time of the request.
-      type: object
-      properties:
-        executor_metadata:
-          $ref: '#/components/schemas/ExecutorMetadata'
     ExecutorMetadata:
       type: object
       description: Contains data about the execution result used to serve the request.
@@ -132,16 +126,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Identifier'
-    Links:
-      type: object
-      properties:
-        _self:
-          type: string
-    Identifier:
-      description: A 32-byte unique identifier for an entity.
-      type: string
-      format: hexadecimal
-      pattern: '[a-fA-F0-9]{64}'
     ExecutionResult:
       type: object
       required:
@@ -168,6 +152,22 @@ components:
           $ref: '#/components/schemas/Metadata'
         _links:
           $ref: '#/components/schemas/Links'
+    EventType:
+      description: The qualified event type.
+      type: string
+    Metadata:
+      description: Contains data about the node's state at the time of the request.
+      type: object
+      properties:
+        executor_metadata:
+          $ref: '#/components/schemas/ExecutorMetadata'
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
     Chunk:
       type: object
       required:
@@ -210,32 +210,19 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    500InternalServerError:
-      description: Internal Server Error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     404NotFound:
       description: Not Found
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    500InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   parameters:
-    selectParam:
-      description: A comma-separated list indicating which properties of the content to return.
-      name: select
-      in: query
-      schema:
-        type: array
-        items:
-          type: string
-        minItems: 1
-        uniqueItems: true
-      explode: false
-      style: form
-      required: false
     includeExecutorMetadata:
       description: Specifies whether or not to include the executor metadata in the response.
       name: include_executor_metadata
@@ -243,6 +230,19 @@ components:
       allowEmptyValue: false
       schema:
         type: boolean
+      required: false
+    requiredExecutorIds:
+      description: A set of execution node IDs, one of which must have produced the execution result.
+      name: required_executor_ids
+      in: query
+      schema:
+        type: array
+        items:
+          $ref: '#/components/schemas/Identifier'
+        minItems: 1
+        uniqueItems: true
+      explode: false
+      style: form
       required: false
     agreeingExecutorsCount:
       description: A minimum number of execution receipts for the execution result.
@@ -253,14 +253,14 @@ components:
         type: string
         format: uint64
       required: false
-    requiredExecutorIds:
-      description: A set of execution node IDs, one of which must have produced the execution result.
-      name: required_executor_ids
+    selectParam:
+      description: A comma-separated list indicating which properties of the content to return.
+      name: select
       in: query
       schema:
         type: array
         items:
-          $ref: '#/components/schemas/Identifier'
+          type: string
         minItems: 1
         uniqueItems: true
       explode: false

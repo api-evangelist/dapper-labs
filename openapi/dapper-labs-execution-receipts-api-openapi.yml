@@ -76,6 +76,16 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    Links:
+      type: object
+      properties:
+        _self:
+          type: string
+    Identifier:
+      description: A 32-byte unique identifier for an entity.
+      type: string
+      format: hexadecimal
+      pattern: '[a-fA-F0-9]{64}'
     Event:
       type: object
       required:
@@ -98,22 +108,6 @@ components:
         payload:
           type: string
           format: byte
-    EventType:
-      description: The qualified event type.
-      type: string
-    Error:
-      type: object
-      properties:
-        code:
-          type: integer
-        message:
-          type: string
-    Metadata:
-      description: Contains data about the node's state at the time of the request.
-      type: object
-      properties:
-        executor_metadata:
-          $ref: '#/components/schemas/ExecutorMetadata'
     ExecutorMetadata:
       type: object
       description: Contains data about the execution result used to serve the request.
@@ -124,16 +118,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Identifier'
-    Links:
-      type: object
-      properties:
-        _self:
-          type: string
-    Identifier:
-      description: A 32-byte unique identifier for an entity.
-      type: string
-      format: hexadecimal
-      pattern: '[a-fA-F0-9]{64}'
     ExecutionResult:
       type: object
       required:
@@ -160,37 +144,22 @@ components:
           $ref: '#/components/schemas/Metadata'
         _links:
           $ref: '#/components/schemas/Links'
-    ExecutionReceipt:
+    EventType:
+      description: The qualified event type.
+      type: string
+    Metadata:
+      description: Contains data about the node's state at the time of the request.
       type: object
-      required:
-      - executor_id
-      - result_id
-      - executor_signature
-      - _expandable
       properties:
-        executor_id:
-          description: Node ID of the execution node who produced the receipt.
-          $ref: '#/components/schemas/Identifier'
-        result_id:
-          $ref: '#/components/schemas/Identifier'
-        spocks:
-          type: array
-          items:
-            type: string
-            format: byte
-        executor_signature:
+        executor_metadata:
+          $ref: '#/components/schemas/ExecutorMetadata'
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
           type: string
-          format: byte
-        execution_result:
-          $ref: '#/components/schemas/ExecutionResult'
-        _expandable:
-          type: object
-          properties:
-            execution_result:
-              type: string
-              format: uri
-        metadata:
-          $ref: '#/components/schemas/Metadata'
     Chunk:
       type: object
       required:
@@ -226,6 +195,56 @@ components:
         total_computation_used:
           type: string
           format: uint64
+    ExecutionReceipt:
+      type: object
+      required:
+      - executor_id
+      - result_id
+      - executor_signature
+      - _expandable
+      properties:
+        executor_id:
+          description: Node ID of the execution node who produced the receipt.
+          $ref: '#/components/schemas/Identifier'
+        result_id:
+          $ref: '#/components/schemas/Identifier'
+        spocks:
+          type: array
+          items:
+            type: string
+            format: byte
+        executor_signature:
+          type: string
+          format: byte
+        execution_result:
+          $ref: '#/components/schemas/ExecutionResult'
+        _expandable:
+          type: object
+          properties:
+            execution_result:
+              type: string
+              format: uri
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+  responses:
+    400BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    404NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    500InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   parameters:
     selectParam:
       description: A comma-separated list indicating which properties of the content to return.
@@ -253,25 +272,6 @@ components:
       explode: false
       style: form
       required: false
-  responses:
-    400BadRequest:
-      description: Bad Request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    500InternalServerError:
-      description: Internal Server Error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    404NotFound:
-      description: Not Found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
 externalDocs:
   description: Find out more about the Access API
   url: https://docs.onflow.org/access-api/

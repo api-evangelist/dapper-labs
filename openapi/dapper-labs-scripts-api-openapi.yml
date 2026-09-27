@@ -65,27 +65,6 @@ paths:
       operationId: postScripts
       x-operation-id-source: derived
 components:
-  schemas:
-    Error:
-      type: object
-      properties:
-        code:
-          type: integer
-        message:
-          type: string
-    BlockHeight:
-      oneOf:
-      - type: string
-        format: uint64
-      - type: string
-        enum:
-        - final
-        - sealed
-    Identifier:
-      description: A 32-byte unique identifier for an entity.
-      type: string
-      format: hexadecimal
-      pattern: '[a-fA-F0-9]{64}'
   responses:
     400BadRequest:
       description: Bad Request
@@ -99,6 +78,27 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+  schemas:
+    Identifier:
+      description: A 32-byte unique identifier for an entity.
+      type: string
+      format: hexadecimal
+      pattern: '[a-fA-F0-9]{64}'
+    BlockHeight:
+      oneOf:
+      - type: string
+        format: uint64
+      - type: string
+        enum:
+        - final
+        - sealed
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
 externalDocs:
   description: Find out more about the Access API
   url: https://docs.onflow.org/access-api/

@@ -175,163 +175,13 @@ paths:
       operationId: getAccountsByAddressBalance
       x-operation-id-source: derived
 components:
-  schemas:
-    Links:
-      type: object
-      properties:
-        _self:
-          type: string
-    Identifier:
-      description: A 32-byte unique identifier for an entity.
-      type: string
-      format: hexadecimal
-      pattern: '[a-fA-F0-9]{64}'
-    AccountPublicKeys:
-      type: object
-      required:
-      - keys
-      properties:
-        keys:
-          type: array
-          items:
-            $ref: '#/components/schemas/AccountPublicKey'
-          minItems: 1
-          uniqueItems: true
-        metadata:
-          $ref: '#/components/schemas/Metadata'
-    HashingAlgorithm:
-      type: string
-      enum:
-      - SHA2_256
-      - SHA2_384
-      - SHA3_256
-      - SHA3_384
-      - KMAC128
-    BlockHeight:
-      oneOf:
-      - type: string
-        format: uint64
-      - type: string
-        enum:
-        - final
-        - sealed
-    AccountPublicKey:
-      type: object
-      required:
-      - index
-      - public_key
-      - signing_algorithm
-      - hashing_algorithm
-      - sequence_number
-      - weight
-      - revoked
-      properties:
-        index:
-          type: string
-          format: uint64
-          description: Index of the public key.
-        public_key:
-          type: string
-          format: hex
-          description: Hex encoded public key.
-        signing_algorithm:
-          $ref: '#/components/schemas/SigningAlgorithm'
-        hashing_algorithm:
-          $ref: '#/components/schemas/HashingAlgorithm'
-        sequence_number:
-          type: string
-          format: uint64
-          description: Current account sequence number.
-        weight:
-          type: string
-          format: uint64
-          description: Weight of the key.
-        revoked:
-          type: boolean
-          description: Flag indicating whether the key is active or not.
-        metadata:
-          $ref: '#/components/schemas/Metadata'
-    Account:
-      type: object
-      required:
-      - address
-      - balance
-      - _expandable
-      properties:
-        address:
-          $ref: '#/components/schemas/Address'
-        balance:
-          type: string
-          format: uint64
-          description: Flow balance of the account.
-        keys:
-          type: array
-          items:
-            $ref: '#/components/schemas/AccountPublicKey'
-          minItems: 1
-          uniqueItems: true
-        contracts:
-          type: object
-          additionalProperties:
-            type: string
-            format: byte
-        metadata:
-          $ref: '#/components/schemas/Metadata'
-        _expandable:
-          type: object
-          properties:
-            keys:
-              type: string
-            contracts:
-              type: string
-        _links:
-          $ref: '#/components/schemas/Links'
-    AccountBalance:
-      type: object
-      required:
-      - balance
-      properties:
-        balance:
-          type: string
-          format: uint64
-          description: Flow balance of the account.
-        metadata:
-          $ref: '#/components/schemas/Metadata'
-    Metadata:
-      description: Contains data about the node's state at the time of the request.
-      type: object
-      properties:
-        executor_metadata:
-          $ref: '#/components/schemas/ExecutorMetadata'
-    ExecutorMetadata:
-      type: object
-      description: Contains data about the execution result used to serve the request.
-      properties:
-        execution_result_id:
-          $ref: '#/components/schemas/Identifier'
-        executor_ids:
-          type: array
-          items:
-            $ref: '#/components/schemas/Identifier'
-    Error:
-      type: object
-      properties:
-        code:
-          type: integer
-        message:
-          type: string
-    SigningAlgorithm:
-      type: string
-      enum:
-      - BLSBLS12381
-      - ECDSAP256
-      - ECDSASecp256k1
-    Address:
-      description: The 8-byte address of an account.
-      type: string
-      format: hexadecimal
-      pattern: '[a-fA-F0-9]{16}'
   responses:
+    404NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     400BadRequest:
       description: Bad Request
       content:
@@ -344,12 +194,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    404NotFound:
-      description: Not Found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   parameters:
     includeExecutorMetadata:
       description: Specifies whether or not to include the executor metadata in the response.
@@ -358,6 +202,19 @@ components:
       allowEmptyValue: false
       schema:
         type: boolean
+      required: false
+    selectParam:
+      description: A comma-separated list indicating which properties of the content to return.
+      name: select
+      in: query
+      schema:
+        type: array
+        items:
+          type: string
+        minItems: 1
+        uniqueItems: true
+      explode: false
+      style: form
       required: false
     requiredExecutorIds:
       description: A set of execution node IDs, one of which must have produced the execution result.
@@ -394,19 +251,162 @@ components:
         type: string
         format: uint64
       required: false
-    selectParam:
-      description: A comma-separated list indicating which properties of the content to return.
-      name: select
-      in: query
-      schema:
-        type: array
-        items:
+  schemas:
+    HashingAlgorithm:
+      type: string
+      enum:
+      - SHA2_256
+      - SHA2_384
+      - SHA3_256
+      - SHA3_384
+      - KMAC128
+    AccountPublicKey:
+      type: object
+      required:
+      - index
+      - public_key
+      - signing_algorithm
+      - hashing_algorithm
+      - sequence_number
+      - weight
+      - revoked
+      properties:
+        index:
           type: string
-        minItems: 1
-        uniqueItems: true
-      explode: false
-      style: form
-      required: false
+          format: uint64
+          description: Index of the public key.
+        public_key:
+          type: string
+          format: hex
+          description: Hex encoded public key.
+        signing_algorithm:
+          $ref: '#/components/schemas/SigningAlgorithm'
+        hashing_algorithm:
+          $ref: '#/components/schemas/HashingAlgorithm'
+        sequence_number:
+          type: string
+          format: uint64
+          description: Current account sequence number.
+        weight:
+          type: string
+          format: uint64
+          description: Weight of the key.
+        revoked:
+          type: boolean
+          description: Flag indicating whether the key is active or not.
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+    Address:
+      description: The 8-byte address of an account.
+      type: string
+      format: hexadecimal
+      pattern: '[a-fA-F0-9]{16}'
+    Identifier:
+      description: A 32-byte unique identifier for an entity.
+      type: string
+      format: hexadecimal
+      pattern: '[a-fA-F0-9]{64}'
+    Links:
+      type: object
+      properties:
+        _self:
+          type: string
+    Metadata:
+      description: Contains data about the node's state at the time of the request.
+      type: object
+      properties:
+        executor_metadata:
+          $ref: '#/components/schemas/ExecutorMetadata'
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+    Account:
+      type: object
+      required:
+      - address
+      - balance
+      - _expandable
+      properties:
+        address:
+          $ref: '#/components/schemas/Address'
+        balance:
+          type: string
+          format: uint64
+          description: Flow balance of the account.
+        keys:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountPublicKey'
+          minItems: 1
+          uniqueItems: true
+        contracts:
+          type: object
+          additionalProperties:
+            type: string
+            format: byte
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        _expandable:
+          type: object
+          properties:
+            keys:
+              type: string
+            contracts:
+              type: string
+        _links:
+          $ref: '#/components/schemas/Links'
+    AccountPublicKeys:
+      type: object
+      required:
+      - keys
+      properties:
+        keys:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountPublicKey'
+          minItems: 1
+          uniqueItems: true
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+    SigningAlgorithm:
+      type: string
+      enum:
+      - BLSBLS12381
+      - ECDSAP256
+      - ECDSASecp256k1
+    ExecutorMetadata:
+      type: object
+      description: Contains data about the execution result used to serve the request.
+      properties:
+        execution_result_id:
+          $ref: '#/components/schemas/Identifier'
+        executor_ids:
+          type: array
+          items:
+            $ref: '#/components/schemas/Identifier'
+    BlockHeight:
+      oneOf:
+      - type: string
+        format: uint64
+      - type: string
+        enum:
+        - final
+        - sealed
+    AccountBalance:
+      type: object
+      required:
+      - balance
+      properties:
+        balance:
+          type: string
+          format: uint64
+          description: Flow balance of the account.
+        metadata:
+          $ref: '#/components/schemas/Metadata'
 externalDocs:
   description: Find out more about the Access API
   url: https://docs.onflow.org/access-api/

@@ -47,6 +47,9 @@ accessModel:
 specificationVersion: '0.23'
 created: '2026-07-17'
 modified: '2026-07-18'
+x-docs-platform: docusaurus
+x-docs-platform-confidence: medium
+x-docs-platform-checked: 2026-09-25
 tags:
 - Company
 - Crypto
@@ -56,6 +59,7 @@ tags:
 - Flow
 - Smart Contracts
 - Developer Tools
+- Canada
 image: https://developers.flow.com/img/flow-docs-logo-light.png
 apis:
 - aid: dapper-labs:dapper-labs-accounts-api
