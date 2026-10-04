@@ -33,6 +33,29 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+    CompatibleRange:
+      type: object
+      description: A compatible version range.
+      required:
+      - start_height
+      - end_height
+      properties:
+        start_height:
+          type: string
+        end_height:
+          type: string
+    Identifier:
+      description: A 32-byte unique identifier for an entity.
+      type: string
+      format: hexadecimal
+      pattern: '[a-fA-F0-9]{64}'
     NodeVersionInfo:
       type: object
       required:
@@ -65,29 +88,6 @@ components:
           format: uint64
         compatible_range:
           $ref: '#/components/schemas/CompatibleRange'
-    Identifier:
-      description: A 32-byte unique identifier for an entity.
-      type: string
-      format: hexadecimal
-      pattern: '[a-fA-F0-9]{64}'
-    Error:
-      type: object
-      properties:
-        code:
-          type: integer
-        message:
-          type: string
-    CompatibleRange:
-      type: object
-      description: A compatible version range.
-      required:
-      - start_height
-      - end_height
-      properties:
-        start_height:
-          type: string
-        end_height:
-          type: string
   responses:
     404NotFound:
       description: Not Found

@@ -32,6 +32,21 @@ paths:
       operationId: getNetworkParameters
       x-operation-id-source: derived
 components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+    NetworkParameters:
+      type: object
+      required:
+      - chain_id
+      properties:
+        chain_id:
+          type: string
   responses:
     404NotFound:
       description: Not Found
@@ -51,21 +66,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-  schemas:
-    Error:
-      type: object
-      properties:
-        code:
-          type: integer
-        message:
-          type: string
-    NetworkParameters:
-      type: object
-      required:
-      - chain_id
-      properties:
-        chain_id:
-          type: string
 externalDocs:
   description: Find out more about the Access API
   url: https://docs.onflow.org/access-api/

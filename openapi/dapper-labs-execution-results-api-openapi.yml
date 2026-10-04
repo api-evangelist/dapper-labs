@@ -84,61 +84,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    Chunk:
-      type: object
-      required:
-      - block_id
-      - collection_index
-      - start_state
-      - end_state
-      - event_collection
-      - index
-      - number_of_transactions
-      - total_computation_used
-      properties:
-        block_id:
-          $ref: '#/components/schemas/Identifier'
-        collection_index:
-          type: string
-          format: uint64
-        start_state:
-          type: string
-          format: byte
-        end_state:
-          type: string
-          format: byte
-        event_collection:
-          type: string
-          format: byte
-        index:
-          type: string
-          format: uint64
-        number_of_transactions:
-          type: string
-          format: uint64
-        total_computation_used:
-          type: string
-          format: uint64
-    Links:
-      type: object
-      properties:
-        _self:
-          type: string
-    ExecutorMetadata:
-      type: object
-      description: Contains data about the execution result used to serve the request.
-      properties:
-        execution_result_id:
-          $ref: '#/components/schemas/Identifier'
-        executor_ids:
-          type: array
-          items:
-            $ref: '#/components/schemas/Identifier'
-    Identifier:
-      description: A 32-byte unique identifier for an entity.
-      type: string
-      format: hexadecimal
-      pattern: '[a-fA-F0-9]{64}'
     Metadata:
       description: Contains data about the node's state at the time of the request.
       type: object
@@ -178,9 +123,6 @@ components:
           $ref: '#/components/schemas/Metadata'
         _links:
           $ref: '#/components/schemas/Links'
-    EventType:
-      description: The qualified event type.
-      type: string
     Event:
       type: object
       required:
@@ -203,6 +145,108 @@ components:
         payload:
           type: string
           format: byte
+    EventType:
+      description: The qualified event type.
+      type: string
+    Identifier:
+      description: A 32-byte unique identifier for an entity.
+      type: string
+      format: hexadecimal
+      pattern: '[a-fA-F0-9]{64}'
+    Links:
+      type: object
+      properties:
+        _self:
+          type: string
+    ExecutorMetadata:
+      type: object
+      description: Contains data about the execution result used to serve the request.
+      properties:
+        execution_result_id:
+          $ref: '#/components/schemas/Identifier'
+        executor_ids:
+          type: array
+          items:
+            $ref: '#/components/schemas/Identifier'
+    Chunk:
+      type: object
+      required:
+      - block_id
+      - collection_index
+      - start_state
+      - end_state
+      - event_collection
+      - index
+      - number_of_transactions
+      - total_computation_used
+      properties:
+        block_id:
+          $ref: '#/components/schemas/Identifier'
+        collection_index:
+          type: string
+          format: uint64
+        start_state:
+          type: string
+          format: byte
+        end_state:
+          type: string
+          format: byte
+        event_collection:
+          type: string
+          format: byte
+        index:
+          type: string
+          format: uint64
+        number_of_transactions:
+          type: string
+          format: uint64
+        total_computation_used:
+          type: string
+          format: uint64
+  parameters:
+    agreeingExecutorsCount:
+      description: A minimum number of execution receipts for the execution result.
+      name: agreeing_executors_count
+      in: query
+      allowEmptyValue: false
+      schema:
+        type: string
+        format: uint64
+      required: false
+    includeExecutorMetadata:
+      description: Specifies whether or not to include the executor metadata in the response.
+      name: include_executor_metadata
+      in: query
+      allowEmptyValue: false
+      schema:
+        type: boolean
+      required: false
+    selectParam:
+      description: A comma-separated list indicating which properties of the content to return.
+      name: select
+      in: query
+      schema:
+        type: array
+        items:
+          type: string
+        minItems: 1
+        uniqueItems: true
+      explode: false
+      style: form
+      required: false
+    requiredExecutorIds:
+      description: A set of execution node IDs, one of which must have produced the execution result.
+      name: required_executor_ids
+      in: query
+      schema:
+        type: array
+        items:
+          $ref: '#/components/schemas/Identifier'
+        minItems: 1
+        uniqueItems: true
+      explode: false
+      style: form
+      required: false
   responses:
     404NotFound:
       description: Not Found
@@ -222,50 +266,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-  parameters:
-    agreeingExecutorsCount:
-      description: A minimum number of execution receipts for the execution result.
-      name: agreeing_executors_count
-      in: query
-      allowEmptyValue: false
-      schema:
-        type: string
-        format: uint64
-      required: false
-    selectParam:
-      description: A comma-separated list indicating which properties of the content to return.
-      name: select
-      in: query
-      schema:
-        type: array
-        items:
-          type: string
-        minItems: 1
-        uniqueItems: true
-      explode: false
-      style: form
-      required: false
-    includeExecutorMetadata:
-      description: Specifies whether or not to include the executor metadata in the response.
-      name: include_executor_metadata
-      in: query
-      allowEmptyValue: false
-      schema:
-        type: boolean
-      required: false
-    requiredExecutorIds:
-      description: A set of execution node IDs, one of which must have produced the execution result.
-      name: required_executor_ids
-      in: query
-      schema:
-        type: array
-        items:
-          $ref: '#/components/schemas/Identifier'
-        minItems: 1
-        uniqueItems: true
-      explode: false
-      style: form
-      required: false
 externalDocs:
   description: Find out more about the Access API
   url: https://docs.onflow.org/access-api/

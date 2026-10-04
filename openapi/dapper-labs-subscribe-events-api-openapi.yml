@@ -92,18 +92,64 @@ paths:
       operationId: getSubscribeEvents
       x-operation-id-source: derived
 components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+    BlockHeight:
+      oneOf:
+      - type: string
+        format: uint64
+      - type: string
+        enum:
+        - final
+        - sealed
+    EventType:
+      description: The qualified event type.
+      type: string
+    Identifier:
+      description: A 32-byte unique identifier for an entity.
+      type: string
+      format: hexadecimal
+      pattern: '[a-fA-F0-9]{64}'
+    SubscribeEvents:
+      type: object
+      properties:
+        BlockId:
+          $ref: '#/components/schemas/Identifier'
+        Height:
+          type: string
+        Events:
+          type: array
+          items:
+            $ref: '#/components/schemas/Event'
+    Event:
+      type: object
+      required:
+      - type
+      - transaction_id
+      - transaction_index
+      - event_index
+      - payload
+      properties:
+        type:
+          $ref: '#/components/schemas/EventType'
+        transaction_id:
+          $ref: '#/components/schemas/Identifier'
+        transaction_index:
+          type: string
+          format: uint64
+        event_index:
+          type: string
+          format: uint64
+        payload:
+          type: string
+          format: byte
   responses:
-    400BadRequestWS:
-      description: 'Bad Request
-
-
-        As OpenAPI does not support WebSocket description, the error code (1003) is actually returned in a close message instead of (400).
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     408ServerTimeoutWS:
       description: 'Server Timeout
 
@@ -137,63 +183,17 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-  schemas:
-    BlockHeight:
-      oneOf:
-      - type: string
-        format: uint64
-      - type: string
-        enum:
-        - final
-        - sealed
-    SubscribeEvents:
-      type: object
-      properties:
-        BlockId:
-          $ref: '#/components/schemas/Identifier'
-        Height:
-          type: string
-        Events:
-          type: array
-          items:
-            $ref: '#/components/schemas/Event'
-    Identifier:
-      description: A 32-byte unique identifier for an entity.
-      type: string
-      format: hexadecimal
-      pattern: '[a-fA-F0-9]{64}'
-    Error:
-      type: object
-      properties:
-        code:
-          type: integer
-        message:
-          type: string
-    EventType:
-      description: The qualified event type.
-      type: string
-    Event:
-      type: object
-      required:
-      - type
-      - transaction_id
-      - transaction_index
-      - event_index
-      - payload
-      properties:
-        type:
-          $ref: '#/components/schemas/EventType'
-        transaction_id:
-          $ref: '#/components/schemas/Identifier'
-        transaction_index:
-          type: string
-          format: uint64
-        event_index:
-          type: string
-          format: uint64
-        payload:
-          type: string
-          format: byte
+    400BadRequestWS:
+      description: 'Bad Request
+
+
+        As OpenAPI does not support WebSocket description, the error code (1003) is actually returned in a close message instead of (400).
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
 externalDocs:
   description: Find out more about the Access API
   url: https://docs.onflow.org/access-api/

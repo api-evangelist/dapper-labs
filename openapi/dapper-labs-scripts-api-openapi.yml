@@ -66,6 +66,13 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
     BlockHeight:
       oneOf:
       - type: string
@@ -79,13 +86,6 @@ components:
       type: string
       format: hexadecimal
       pattern: '[a-fA-F0-9]{64}'
-    Error:
-      type: object
-      properties:
-        code:
-          type: integer
-        message:
-          type: string
   responses:
     500InternalServerError:
       description: Internal Server Error

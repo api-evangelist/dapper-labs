@@ -73,79 +73,7 @@ paths:
       operationId: getEvents
       x-operation-id-source: derived
 components:
-  parameters:
-    agreeingExecutorsCount:
-      description: A minimum number of execution receipts for the execution result.
-      name: agreeing_executors_count
-      in: query
-      allowEmptyValue: false
-      schema:
-        type: string
-        format: uint64
-      required: false
-    selectParam:
-      description: A comma-separated list indicating which properties of the content to return.
-      name: select
-      in: query
-      schema:
-        type: array
-        items:
-          type: string
-        minItems: 1
-        uniqueItems: true
-      explode: false
-      style: form
-      required: false
-    includeExecutorMetadata:
-      description: Specifies whether or not to include the executor metadata in the response.
-      name: include_executor_metadata
-      in: query
-      allowEmptyValue: false
-      schema:
-        type: boolean
-      required: false
-    requiredExecutorIds:
-      description: A set of execution node IDs, one of which must have produced the execution result.
-      name: required_executor_ids
-      in: query
-      schema:
-        type: array
-        items:
-          $ref: '#/components/schemas/Identifier'
-        minItems: 1
-        uniqueItems: true
-      explode: false
-      style: form
-      required: false
   schemas:
-    Links:
-      type: object
-      properties:
-        _self:
-          type: string
-    BlockHeight:
-      oneOf:
-      - type: string
-        format: uint64
-      - type: string
-        enum:
-        - final
-        - sealed
-    ExecutorMetadata:
-      type: object
-      description: Contains data about the execution result used to serve the request.
-      properties:
-        execution_result_id:
-          $ref: '#/components/schemas/Identifier'
-        executor_ids:
-          type: array
-          items:
-            $ref: '#/components/schemas/Identifier'
-    Identifier:
-      description: A 32-byte unique identifier for an entity.
-      type: string
-      format: hexadecimal
-      pattern: '[a-fA-F0-9]{64}'
     Metadata:
       description: Contains data about the node's state at the time of the request.
       type: object
@@ -159,27 +87,6 @@ components:
           type: integer
         message:
           type: string
-    BlockEvents:
-      type: object
-      properties:
-        block_id:
-          $ref: '#/components/schemas/Identifier'
-        block_height:
-          type: string
-        block_timestamp:
-          type: string
-          format: date-time
-        events:
-          type: array
-          items:
-            $ref: '#/components/schemas/Event'
-        metadata:
-          $ref: '#/components/schemas/Metadata'
-        _links:
-          $ref: '#/components/schemas/Links'
-    EventType:
-      description: The qualified event type.
-      type: string
     Event:
       type: object
       required:
@@ -202,6 +109,99 @@ components:
         payload:
           type: string
           format: byte
+    EventType:
+      description: The qualified event type.
+      type: string
+    BlockHeight:
+      oneOf:
+      - type: string
+        format: uint64
+      - type: string
+        enum:
+        - final
+        - sealed
+    Identifier:
+      description: A 32-byte unique identifier for an entity.
+      type: string
+      format: hexadecimal
+      pattern: '[a-fA-F0-9]{64}'
+    BlockEvents:
+      type: object
+      properties:
+        block_id:
+          $ref: '#/components/schemas/Identifier'
+        block_height:
+          type: string
+        block_timestamp:
+          type: string
+          format: date-time
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/Event'
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        _links:
+          $ref: '#/components/schemas/Links'
+    ExecutorMetadata:
+      type: object
+      description: Contains data about the execution result used to serve the request.
+      properties:
+        execution_result_id:
+          $ref: '#/components/schemas/Identifier'
+        executor_ids:
+          type: array
+          items:
+            $ref: '#/components/schemas/Identifier'
+    Links:
+      type: object
+      properties:
+        _self:
+          type: string
+  parameters:
+    agreeingExecutorsCount:
+      description: A minimum number of execution receipts for the execution result.
+      name: agreeing_executors_count
+      in: query
+      allowEmptyValue: false
+      schema:
+        type: string
+        format: uint64
+      required: false
+    includeExecutorMetadata:
+      description: Specifies whether or not to include the executor metadata in the response.
+      name: include_executor_metadata
+      in: query
+      allowEmptyValue: false
+      schema:
+        type: boolean
+      required: false
+    selectParam:
+      description: A comma-separated list indicating which properties of the content to return.
+      name: select
+      in: query
+      schema:
+        type: array
+        items:
+          type: string
+        minItems: 1
+        uniqueItems: true
+      explode: false
+      style: form
+      required: false
+    requiredExecutorIds:
+      description: A set of execution node IDs, one of which must have produced the execution result.
+      name: required_executor_ids
+      in: query
+      schema:
+        type: array
+        items:
+          $ref: '#/components/schemas/Identifier'
+        minItems: 1
+        uniqueItems: true
+      explode: false
+      style: form
+      required: false
   responses:
     404NotFound:
       description: Not Found
