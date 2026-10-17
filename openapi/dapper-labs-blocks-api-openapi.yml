@@ -129,101 +129,34 @@ paths:
       operationId: getBlocksByIdPayload
       x-operation-id-source: derived
 components:
+  parameters:
+    expandParam:
+      description: A comma-separated list indicating which properties of the content to expand.
+      name: expand
+      in: query
+      schema:
+        type: array
+        items:
+          type: string
+        minItems: 1
+        uniqueItems: true
+      explode: false
+      style: form
+      required: false
+    selectParam:
+      description: A comma-separated list indicating which properties of the content to return.
+      name: select
+      in: query
+      schema:
+        type: array
+        items:
+          type: string
+        minItems: 1
+        uniqueItems: true
+      explode: false
+      style: form
+      required: false
   schemas:
-    BlockStatus:
-      type: string
-      description: This value indicates the status of a block.
-      enum:
-      - BLOCK_UNKNOWN
-      - BLOCK_FINALIZED
-      - BLOCK_SEALED
-    BlockHeight:
-      oneOf:
-      - type: string
-        format: uint64
-      - type: string
-        enum:
-        - final
-        - sealed
-    EventType:
-      description: The qualified event type.
-      type: string
-    Links:
-      type: object
-      properties:
-        _self:
-          type: string
-    AggregatedSignature:
-      type: object
-      required:
-      - verifier_signatures
-      - signer_ids
-      properties:
-        verifier_signatures:
-          type: array
-          items:
-            $ref: '#/components/schemas/Signature'
-          minItems: 1
-          uniqueItems: true
-        signer_ids:
-          type: array
-          items:
-            $ref: '#/components/schemas/Identifier'
-          minItems: 1
-          uniqueItems: true
-    BlockSeal:
-      type: object
-      required:
-      - block_id
-      - result_id
-      - final_state
-      - aggregated_approval_signatures
-      properties:
-        block_id:
-          $ref: '#/components/schemas/Identifier'
-        result_id:
-          $ref: '#/components/schemas/Identifier'
-        final_state:
-          $ref: '#/components/schemas/StateCommitment'
-        aggregated_approval_signatures:
-          type: array
-          items:
-            $ref: '#/components/schemas/AggregatedSignature'
-          minItems: 1
-          uniqueItems: true
-    Error:
-      type: object
-      properties:
-        code:
-          type: integer
-        message:
-          type: string
-    ExecutionResult:
-      type: object
-      required:
-      - id
-      - block_id
-      - events
-      - previous_result_id
-      properties:
-        id:
-          $ref: '#/components/schemas/Identifier'
-        block_id:
-          $ref: '#/components/schemas/Identifier'
-        events:
-          type: array
-          items:
-            $ref: '#/components/schemas/Event'
-        chunks:
-          type: array
-          items:
-            $ref: '#/components/schemas/Chunk'
-        previous_result_id:
-          $ref: '#/components/schemas/Identifier'
-        metadata:
-          $ref: '#/components/schemas/Metadata'
-        _links:
-          $ref: '#/components/schemas/Links'
     BlockPayload:
       type: object
       required:
@@ -240,40 +173,62 @@ components:
           items:
             $ref: '#/components/schemas/BlockSeal'
           uniqueItems: true
-    CollectionGuarantee:
-      type: object
-      required:
-      - collection_id
-      - signer_ids
-      - signature
-      - reference_block_id
-      - cluster_chain_id
-      properties:
-        collection_id:
-          $ref: '#/components/schemas/Identifier'
-        signer_ids:
-          type: array
-          items:
-            $ref: '#/components/schemas/Identifier'
-          minItems: 1
-          uniqueItems: true
-        signature:
-          $ref: '#/components/schemas/Signature'
-        reference_block_id:
-          $ref: '#/components/schemas/Identifier'
-        cluster_chain_id:
-          type: string
-    Identifier:
-      description: A 32-byte unique identifier for an entity.
-      type: string
-      format: hexadecimal
-      pattern: '[a-fA-F0-9]{64}'
     Metadata:
       description: Contains data about the node's state at the time of the request.
       type: object
       properties:
         executor_metadata:
           $ref: '#/components/schemas/ExecutorMetadata'
+    BlockHeader:
+      type: object
+      required:
+      - id
+      - parent_id
+      - height
+      - timestamp
+      - parent_voter_signature
+      properties:
+        id:
+          $ref: '#/components/schemas/Identifier'
+        parent_id:
+          $ref: '#/components/schemas/Identifier'
+        height:
+          type: string
+          format: uint64
+        timestamp:
+          type: string
+          format: date-time
+        parent_voter_signature:
+          $ref: '#/components/schemas/Signature'
+    BlockHeight:
+      oneOf:
+      - type: string
+        format: uint64
+      - type: string
+        enum:
+        - final
+        - sealed
+    Signature:
+      description: A variable length signature.
+      type: string
+      format: byte
+    ExecutorMetadata:
+      type: object
+      description: Contains data about the execution result used to serve the request.
+      properties:
+        execution_result_id:
+          $ref: '#/components/schemas/Identifier'
+        executor_ids:
+          type: array
+          items:
+            $ref: '#/components/schemas/Identifier'
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
     Chunk:
       type: object
       required:
@@ -309,11 +264,80 @@ components:
         total_computation_used:
           type: string
           format: uint64
-    StateCommitment:
-      description: The root hash of the state tree.
+    ExecutionResult:
+      type: object
+      required:
+      - id
+      - block_id
+      - events
+      - previous_result_id
+      properties:
+        id:
+          $ref: '#/components/schemas/Identifier'
+        block_id:
+          $ref: '#/components/schemas/Identifier'
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/Event'
+        chunks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Chunk'
+        previous_result_id:
+          $ref: '#/components/schemas/Identifier'
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        _links:
+          $ref: '#/components/schemas/Links'
+    EventType:
+      description: The qualified event type.
       type: string
-      format: hexadecimal
-      pattern: '[a-fA-F0-9]{64}'
+    Links:
+      type: object
+      properties:
+        _self:
+          type: string
+    AggregatedSignature:
+      type: object
+      required:
+      - verifier_signatures
+      - signer_ids
+      properties:
+        verifier_signatures:
+          type: array
+          items:
+            $ref: '#/components/schemas/Signature'
+          minItems: 1
+          uniqueItems: true
+        signer_ids:
+          type: array
+          items:
+            $ref: '#/components/schemas/Identifier'
+          minItems: 1
+          uniqueItems: true
+    Event:
+      type: object
+      required:
+      - type
+      - transaction_id
+      - transaction_index
+      - event_index
+      - payload
+      properties:
+        type:
+          $ref: '#/components/schemas/EventType'
+        transaction_id:
+          $ref: '#/components/schemas/Identifier'
+        transaction_index:
+          type: string
+          format: uint64
+        event_index:
+          type: string
+          format: uint64
+        payload:
+          type: string
+          format: byte
     Block:
       type: object
       required:
@@ -338,90 +362,66 @@ components:
           $ref: '#/components/schemas/Links'
         block_status:
           $ref: '#/components/schemas/BlockStatus'
-    ExecutorMetadata:
+    BlockSeal:
       type: object
-      description: Contains data about the execution result used to serve the request.
+      required:
+      - block_id
+      - result_id
+      - final_state
+      - aggregated_approval_signatures
       properties:
-        execution_result_id:
+        block_id:
           $ref: '#/components/schemas/Identifier'
-        executor_ids:
+        result_id:
+          $ref: '#/components/schemas/Identifier'
+        final_state:
+          $ref: '#/components/schemas/StateCommitment'
+        aggregated_approval_signatures:
+          type: array
+          items:
+            $ref: '#/components/schemas/AggregatedSignature'
+          minItems: 1
+          uniqueItems: true
+    Identifier:
+      description: A 32-byte unique identifier for an entity.
+      type: string
+      format: hexadecimal
+      pattern: '[a-fA-F0-9]{64}'
+    BlockStatus:
+      type: string
+      description: This value indicates the status of a block.
+      enum:
+      - BLOCK_UNKNOWN
+      - BLOCK_FINALIZED
+      - BLOCK_SEALED
+    CollectionGuarantee:
+      type: object
+      required:
+      - collection_id
+      - signer_ids
+      - signature
+      - reference_block_id
+      - cluster_chain_id
+      properties:
+        collection_id:
+          $ref: '#/components/schemas/Identifier'
+        signer_ids:
           type: array
           items:
             $ref: '#/components/schemas/Identifier'
-    BlockHeader:
-      type: object
-      required:
-      - id
-      - parent_id
-      - height
-      - timestamp
-      - parent_voter_signature
-      properties:
-        id:
-          $ref: '#/components/schemas/Identifier'
-        parent_id:
-          $ref: '#/components/schemas/Identifier'
-        height:
-          type: string
-          format: uint64
-        timestamp:
-          type: string
-          format: date-time
-        parent_voter_signature:
+          minItems: 1
+          uniqueItems: true
+        signature:
           $ref: '#/components/schemas/Signature'
-    Event:
-      type: object
-      required:
-      - type
-      - transaction_id
-      - transaction_index
-      - event_index
-      - payload
-      properties:
-        type:
-          $ref: '#/components/schemas/EventType'
-        transaction_id:
+        reference_block_id:
           $ref: '#/components/schemas/Identifier'
-        transaction_index:
+        cluster_chain_id:
           type: string
-          format: uint64
-        event_index:
-          type: string
-          format: uint64
-        payload:
-          type: string
-          format: byte
-    Signature:
-      description: A variable length signature.
+    StateCommitment:
+      description: The root hash of the state tree.
       type: string
-      format: byte
-  parameters:
-    expandParam:
-      description: A comma-separated list indicating which properties of the content to expand.
-      name: expand
-      in: query
-      schema:
-        type: array
-        items:
-          type: string
-        minItems: 1
-        uniqueItems: true
-      explode: false
-      style: form
-      required: false
-    selectParam:
-      description: A comma-separated list indicating which properties of the content to return.
-      name: select
-      in: query
-      schema:
-        type: array
-        items:
-          type: string
-        minItems: 1
-        uniqueItems: true
-      explode: false
-      style: form
-      required: false
+      format: hexadecimal
+      pattern: '[a-fA-F0-9]{64}'
   responses:
     400BadRequest:
       description: Bad Request

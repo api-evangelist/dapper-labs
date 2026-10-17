@@ -76,12 +76,14 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    Metadata:
-      description: Contains data about the node's state at the time of the request.
+    EventType:
+      description: The qualified event type.
+      type: string
+    Links:
       type: object
       properties:
-        executor_metadata:
-          $ref: '#/components/schemas/ExecutorMetadata'
+        _self:
+          type: string
     Error:
       type: object
       properties:
@@ -89,35 +91,6 @@ components:
           type: integer
         message:
           type: string
-    ExecutionResult:
-      type: object
-      required:
-      - id
-      - block_id
-      - events
-      - previous_result_id
-      properties:
-        id:
-          $ref: '#/components/schemas/Identifier'
-        block_id:
-          $ref: '#/components/schemas/Identifier'
-        events:
-          type: array
-          items:
-            $ref: '#/components/schemas/Event'
-        chunks:
-          type: array
-          items:
-            $ref: '#/components/schemas/Chunk'
-        previous_result_id:
-          $ref: '#/components/schemas/Identifier'
-        metadata:
-          $ref: '#/components/schemas/Metadata'
-        _links:
-          $ref: '#/components/schemas/Links'
-    EventType:
-      description: The qualified event type.
-      type: string
     ExecutionReceipt:
       type: object
       required:
@@ -149,48 +122,6 @@ components:
               format: uri
         metadata:
           $ref: '#/components/schemas/Metadata'
-    Identifier:
-      description: A 32-byte unique identifier for an entity.
-      type: string
-      format: hexadecimal
-      pattern: '[a-fA-F0-9]{64}'
-    Links:
-      type: object
-      properties:
-        _self:
-          type: string
-    ExecutorMetadata:
-      type: object
-      description: Contains data about the execution result used to serve the request.
-      properties:
-        execution_result_id:
-          $ref: '#/components/schemas/Identifier'
-        executor_ids:
-          type: array
-          items:
-            $ref: '#/components/schemas/Identifier'
-    Event:
-      type: object
-      required:
-      - type
-      - transaction_id
-      - transaction_index
-      - event_index
-      - payload
-      properties:
-        type:
-          $ref: '#/components/schemas/EventType'
-        transaction_id:
-          $ref: '#/components/schemas/Identifier'
-        transaction_index:
-          type: string
-          format: uint64
-        event_index:
-          type: string
-          format: uint64
-        payload:
-          type: string
-          format: byte
     Chunk:
       type: object
       required:
@@ -226,7 +157,82 @@ components:
         total_computation_used:
           type: string
           format: uint64
+    Identifier:
+      description: A 32-byte unique identifier for an entity.
+      type: string
+      format: hexadecimal
+      pattern: '[a-fA-F0-9]{64}'
+    Metadata:
+      description: Contains data about the node's state at the time of the request.
+      type: object
+      properties:
+        executor_metadata:
+          $ref: '#/components/schemas/ExecutorMetadata'
+    Event:
+      type: object
+      required:
+      - type
+      - transaction_id
+      - transaction_index
+      - event_index
+      - payload
+      properties:
+        type:
+          $ref: '#/components/schemas/EventType'
+        transaction_id:
+          $ref: '#/components/schemas/Identifier'
+        transaction_index:
+          type: string
+          format: uint64
+        event_index:
+          type: string
+          format: uint64
+        payload:
+          type: string
+          format: byte
+    ExecutionResult:
+      type: object
+      required:
+      - id
+      - block_id
+      - events
+      - previous_result_id
+      properties:
+        id:
+          $ref: '#/components/schemas/Identifier'
+        block_id:
+          $ref: '#/components/schemas/Identifier'
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/Event'
+        chunks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Chunk'
+        previous_result_id:
+          $ref: '#/components/schemas/Identifier'
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        _links:
+          $ref: '#/components/schemas/Links'
+    ExecutorMetadata:
+      type: object
+      description: Contains data about the execution result used to serve the request.
+      properties:
+        execution_result_id:
+          $ref: '#/components/schemas/Identifier'
+        executor_ids:
+          type: array
+          items:
+            $ref: '#/components/schemas/Identifier'
   responses:
+    400BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     404NotFound:
       description: Not Found
       content:
@@ -239,16 +245,10 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    400BadRequest:
-      description: Bad Request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   parameters:
-    selectParam:
-      description: A comma-separated list indicating which properties of the content to return.
-      name: select
+    expandParam:
+      description: A comma-separated list indicating which properties of the content to expand.
+      name: expand
       in: query
       schema:
         type: array
@@ -259,9 +259,9 @@ components:
       explode: false
       style: form
       required: false
-    expandParam:
-      description: A comma-separated list indicating which properties of the content to expand.
-      name: expand
+    selectParam:
+      description: A comma-separated list indicating which properties of the content to return.
+      name: select
       in: query
       schema:
         type: array

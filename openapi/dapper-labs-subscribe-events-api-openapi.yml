@@ -93,6 +93,9 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    EventType:
+      description: The qualified event type.
+      type: string
     Error:
       type: object
       properties:
@@ -100,33 +103,11 @@ components:
           type: integer
         message:
           type: string
-    BlockHeight:
-      oneOf:
-      - type: string
-        format: uint64
-      - type: string
-        enum:
-        - final
-        - sealed
-    EventType:
-      description: The qualified event type.
-      type: string
     Identifier:
       description: A 32-byte unique identifier for an entity.
       type: string
       format: hexadecimal
       pattern: '[a-fA-F0-9]{64}'
-    SubscribeEvents:
-      type: object
-      properties:
-        BlockId:
-          $ref: '#/components/schemas/Identifier'
-        Height:
-          type: string
-        Events:
-          type: array
-          items:
-            $ref: '#/components/schemas/Event'
     Event:
       type: object
       required:
@@ -149,12 +130,42 @@ components:
         payload:
           type: string
           format: byte
+    BlockHeight:
+      oneOf:
+      - type: string
+        format: uint64
+      - type: string
+        enum:
+        - final
+        - sealed
+    SubscribeEvents:
+      type: object
+      properties:
+        BlockId:
+          $ref: '#/components/schemas/Identifier'
+        Height:
+          type: string
+        Events:
+          type: array
+          items:
+            $ref: '#/components/schemas/Event'
   responses:
     408ServerTimeoutWS:
       description: 'Server Timeout
 
 
         As OpenAPI does not support WebSocket description, this error code (1001) is actually returned in a close message instead of (408).
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    400BadRequestWS:
+      description: 'Bad Request
+
+
+        As OpenAPI does not support WebSocket description, the error code (1003) is actually returned in a close message instead of (400).
 
         '
       content:
@@ -177,17 +188,6 @@ components:
 
 
         As OpenAPI does not support WebSocket description, this error code (1011) is actually returned in a close message instead of (500).
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    400BadRequestWS:
-      description: 'Bad Request
-
-
-        As OpenAPI does not support WebSocket description, the error code (1003) is actually returned in a close message instead of (400).
 
         '
       content:

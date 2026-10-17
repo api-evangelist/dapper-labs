@@ -32,6 +32,25 @@ paths:
       operationId: getNodeVersionInfo
       x-operation-id-source: derived
 components:
+  responses:
+    400BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    404NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    500InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
     Error:
       type: object
@@ -40,6 +59,11 @@ components:
           type: integer
         message:
           type: string
+    Identifier:
+      description: A 32-byte unique identifier for an entity.
+      type: string
+      format: hexadecimal
+      pattern: '[a-fA-F0-9]{64}'
     CompatibleRange:
       type: object
       description: A compatible version range.
@@ -51,11 +75,6 @@ components:
           type: string
         end_height:
           type: string
-    Identifier:
-      description: A 32-byte unique identifier for an entity.
-      type: string
-      format: hexadecimal
-      pattern: '[a-fA-F0-9]{64}'
     NodeVersionInfo:
       type: object
       required:
@@ -88,25 +107,6 @@ components:
           format: uint64
         compatible_range:
           $ref: '#/components/schemas/CompatibleRange'
-  responses:
-    404NotFound:
-      description: Not Found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    500InternalServerError:
-      description: Internal Server Error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    400BadRequest:
-      description: Bad Request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
 externalDocs:
   description: Find out more about the Access API
   url: https://docs.onflow.org/access-api/
