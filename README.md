@@ -64,6 +64,139 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Dapper Labs is a company surfaced as a portfolio company of a16z, gv, sv-angel, union-square-ventures, version-one-ventures and added to the API Evangelist network as a stub for enrichment. Sector: crypto. This profile is a lead awaiting the enrichment pipeline.
+Dapper Labs is the blockchain company behind the Flow network and a portfolio of consumer NFT experiences including NBA Top Shot, NFL All Day, Disney Pinnacle, and LaLiga Golazos. Its primary public developer surface is the Flow Access API — a public, unauthenticated blockchain node API available over REST (rest-mainnet.onflow.org), gRPC, and WebSocket event streaming — used to read on-chain data (blocks, transactions, accounts, collections, events), execute read-only Cadence scripts, and submit signed Cadence transactions. Flow and its client tooling (FCL, the Flow CLI, Go/JS SDKs) are maintained under the onflow GitHub organization. This profile began as a VC-portfolio stub and has been enriched by the API Evangelist pipeline from Dapper/Flow's real developer artifacts.
 
-Backed by: a16z, gv, sv-angel, union-square-ventures, version-one-ventures — https://dapperlabs.com
+**Areas:** Company · Cryptocurrency · Blockchain · Web3 · NFT · Flow · Smart Contracts · Developer Tools · Canada
+
+## Dapper Labs on APIs.io
+
+Everything profiled for Dapper Labs is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/dapper-labs/](https://apis.io/providers/dapper-labs/)** — or go straight to one of the APIs or properties below.
+
+### APIs (11)
+
+- [Dapper Labs Accounts API](https://apis.io/apis/dapper-labs/dapper-labs-accounts-api/) — The Accounts API from Dapper Labs — 4 operation(s) for accounts.
+- [Dapper Labs Blocks API](https://apis.io/apis/dapper-labs/dapper-labs-blocks-api/) — The Blocks API from Dapper Labs — 3 operation(s) for blocks.
+- [Dapper Labs Collections API](https://apis.io/apis/dapper-labs/dapper-labs-collections-api/) — The Collections API from Dapper Labs — 1 operation(s) for collections.
+- [Dapper Labs Events API](https://apis.io/apis/dapper-labs/dapper-labs-events-api/) — The Events API from Dapper Labs — 1 operation(s) for events.
+- [Dapper Labs Execution Receipts API](https://apis.io/apis/dapper-labs/dapper-labs-execution-receipts-api/) — The Execution Receipts API from Dapper Labs — 2 operation(s) for execution receipts.
+- [Dapper Labs Execution Results API](https://apis.io/apis/dapper-labs/dapper-labs-execution-results-api/) — The Execution Results API from Dapper Labs — 2 operation(s) for execution results.
+- [Dapper Labs Network API](https://apis.io/apis/dapper-labs/dapper-labs-network-api/) — The Network API from Dapper Labs — 1 operation(s) for network.
+- [Dapper Labs NodeVersionInfo API](https://apis.io/apis/dapper-labs/dapper-labs-nodeversioninfo-api/) — The NodeVersionInfo API from Dapper Labs — 1 operation(s) for nodeversioninfo.
+- [Dapper Labs Scripts API](https://apis.io/apis/dapper-labs/dapper-labs-scripts-api/) — The Scripts API from Dapper Labs — 1 operation(s) for scripts.
+- [Dapper Labs Subscribe events API](https://apis.io/apis/dapper-labs/dapper-labs-subscribe-events-api/) — The Subscribe events API from Dapper Labs — 1 operation(s) for subscribe events.
+- [Dapper Labs Transactions API](https://apis.io/apis/dapper-labs/dapper-labs-transactions-api/) — The Transactions API from Dapper Labs — 4 operation(s) for transactions.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### AsyncAPI (1)
+
+Event-driven and webhook contracts.
+
+- [Dapper Labs Flow Events Webhooks](https://apis.io/asyncapis/dapper-labs/dapper-labs-flow-events-webhooks/)
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [dapper-labs-flow-access](https://apis.io/servers/dapper-labs/dapper-labs-flow-access/)
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Dapper Labs Agentic Access](https://apis.io/agentic-access/dapper-labs/dapper-labs-agentic-access/)
+
+#### Collections (11)
+
+Postman and Open Collection request collections.
+
+- [Access Accounts API](https://apis.io/collections/dapper-labs/open-dapper-labs-accounts-api/)
+- [Access Accounts Blocks API](https://apis.io/collections/dapper-labs/open-dapper-labs-blocks-api/)
+- [Access Accounts Collections API](https://apis.io/collections/dapper-labs/open-dapper-labs-collections-api/)
+- [Access Accounts Events API](https://apis.io/collections/dapper-labs/open-dapper-labs-events-api/)
+- [Access Accounts Execution Receipts API](https://apis.io/collections/dapper-labs/open-dapper-labs-execution-receipts-api/)
+- [Access Accounts Execution Results API](https://apis.io/collections/dapper-labs/open-dapper-labs-execution-results-api/)
+- [Access Accounts Network API](https://apis.io/collections/dapper-labs/open-dapper-labs-network-api/)
+- [Access Accounts NodeVersionInfo API](https://apis.io/collections/dapper-labs/open-dapper-labs-nodeversioninfo-api/)
+- [Access Accounts Scripts API](https://apis.io/collections/dapper-labs/open-dapper-labs-scripts-api/)
+- [Access Accounts Subscribe events API](https://apis.io/collections/dapper-labs/open-dapper-labs-subscribe-events-api/)
+- [Access Accounts Transactions API](https://apis.io/collections/dapper-labs/open-dapper-labs-transactions-api/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Dapper Labs Flow Access Overlay](https://apis.io/overlays/dapper-labs/dapper-labs-flow-access-overlay/)
+
+#### Security (1)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Dapper Labs Domain Security](https://apis.io/security/dapper-labs/dapper-labs-domain-security/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://dapperlabs.com)
+- [Documentation](https://developers.flow.com)
+- [Getting started](https://developers.flow.com/build/getting-started/contract-interaction)
+- [API reference](https://developers.flow.com/http-api)
+- [Blog](https://flow.com/blog)
+- [GitHub](https://github.com/onflow)
+- [Status](https://status.flow.com)
+
+## API Evangelist rating
+
+**Kin Score 35.7** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 73.2 |
+| Contract quality | 52.3 |
+| Contract governance | 4.5 |
+| Operational transparency | 26.3 |
+| Developer ergonomics | 63.7 |
+| Access clarity | 0.0 |
+
+**Agent readiness 20.7** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | — |
+| Idempotency | — |
+| Error Semantics | derived (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | — |
+| Event Surface Described | yes |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 10.8** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/dapper-labs/](https://apis.io/providers/dapper-labs/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Dapper Labs: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/dapper-labs/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
